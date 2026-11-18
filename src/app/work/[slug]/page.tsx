@@ -23,6 +23,8 @@ import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 
+const projectDetailBasePath = "/work";
+
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
   return posts.map((post) => ({
@@ -50,7 +52,7 @@ export async function generateMetadata({
     description: post.metadata.summary,
     baseURL: baseURL,
     image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
-    path: `${work.path}/${post.slug}`,
+    path: `${projectDetailBasePath}/${post.slug}`,
   });
   // Meta.generate writes a canonical only alongside language alternates.
   return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
@@ -73,7 +75,7 @@ export default async function Project({
   }
 
   // Password-protected: render nothing without access (RouteGuard shows the form).
-  if (!(await canViewPath(`${work.path}/${post.slug}`))) {
+  if (!(await canViewPath(`${projectDetailBasePath}/${post.slug}`))) {
     return null;
   }
 
@@ -88,7 +90,7 @@ export default async function Project({
       <Schema
         as="blogPosting"
         baseURL={baseURL}
-        path={`${work.path}/${post.slug}`}
+        path={`${projectDetailBasePath}/${post.slug}`}
         title={post.metadata.title}
         description={post.metadata.summary}
         datePublished={post.metadata.publishedAt}
@@ -103,7 +105,7 @@ export default async function Project({
         }}
       />
       <Column maxWidth="s" gap="16" horizontal="center" align="center">
-        <SmartLink href="/work">
+        <SmartLink href={work.path}>
           <Text variant="label-strong-m">Projects</Text>
         </SmartLink>
         <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">

@@ -8,7 +8,95 @@
     }
 }
 
+.sidebar {
+    position: sticky;
+    top: 96px;
+    flex: 0 0 16rem;
+    align-self: flex-start;
+    padding-right: var(--static-space-8);
+}
+
+.profileName {
+    margin-top: var(--static-space-8);
+}
+
+.profileRole {
+    color: var(--neutral-on-background-weak);
+}
+
+.navigation {
+    width: 100%;
+    margin-top: var(--static-space-8);
+    padding-top: var(--static-space-16);
+    border-top: 1px solid var(--neutral-alpha-medium);
+}
+
+.navigationTitle {
+    margin-bottom: var(--static-space-4);
+    color: var(--neutral-on-background-strong);
+}
+
+.navigationLink,
+.navigationSubLink {
+    display: block;
+    min-width: 0;
+    padding: var(--static-space-4) var(--static-space-8);
+    border-left: 2px solid transparent;
+    color: var(--neutral-on-background-weak);
+    text-decoration: none;
+    transition: color var(--transition-micro-medium), border-color var(--transition-micro-medium);
+}
+
+.navigationLink:hover,
+.navigationSubLink:hover {
+    border-left-color: var(--neutral-on-background-strong);
+    color: var(--neutral-on-background-strong);
+}
+
+.navigationSubLink {
+    margin-left: var(--static-space-12);
+    font-size: 0.875rem;
+}
+
+.content {
+    min-width: 0;
+}
+
+.content :global(h2) {
+    scroll-margin-top: 6rem;
+}
+
+.content :global(h3) {
+    color: var(--neutral-on-background-weak);
+}
+
+.sectionHeading {
+    scroll-margin-top: 6rem;
+}
+
+.sectionEmoji {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    opacity: 0.75;
+}
+
+.introduction {
+    scroll-margin-top: 6rem;
+}
+
 @media (max-width: breakpoints.$s) {
+    .sidebar {
+        position: static;
+        flex-basis: auto;
+        padding-right: 0;
+    }
+
+    .navigation {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+
     .textAlign {
         text-align: center;
     }
@@ -16,4 +104,10 @@
     .blockAlign {
         align-self: center;
     }
+}
+
+.navigationLink:focus-visible,
+.navigationSubLink:focus-visible {
+    outline: 2px solid var(--neutral-on-background-strong);
+    outline-offset: 2px;
 }

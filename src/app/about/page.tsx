@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   Column,
   Heading,
   Icon,
@@ -11,11 +10,36 @@ import {
   Meta,
   Schema,
   Row,
+  SmartLink,
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
+
+function SectionHeading({ id, title, icon }: { id: string; title: string; icon: string }) {
+  return (
+    <Row
+      id={id}
+      className={styles.sectionHeading}
+      fillWidth
+      horizontal="center"
+      vertical="center"
+      gap="8"
+      marginBottom="m"
+    >
+      <Text className={styles.sectionEmoji} aria-hidden="true">
+        {icon}
+      </Text>
+      <Heading as="h2" align="center" onBackground="neutral-strong" variant="display-strong-s">
+        {title}
+      </Heading>
+      <Text className={styles.sectionEmoji} aria-hidden="true">
+        {icon}
+      </Text>
+    </Row>
+  );
+}
 
 export async function generateMetadata() {
   const metadata = Meta.generate({
@@ -32,24 +56,70 @@ export async function generateMetadata() {
 export default function About() {
   const structure = [
     {
+      id: about.intro.title,
       title: about.intro.title,
       display: about.intro.display,
       items: [],
     },
     {
+      id: about.work.title,
       title: about.work.title,
       display: about.work.display,
-      items: about.work.experiences.map((experience) => experience.company),
+      items: about.work.experiences.map((experience, index) => ({
+        id: `experience-${index}`,
+        label: experience.company,
+      })),
     },
     {
+      id: about.studies.title,
       title: about.studies.title,
       display: about.studies.display,
-      items: about.studies.institutions.map((institution) => institution.name),
+      items: about.studies.institutions.map((institution, index) => ({
+        id: `study-${index}`,
+        label: institution.name,
+      })),
     },
     {
+      id: about.technical.title,
       title: about.technical.title,
       display: about.technical.display,
-      items: about.technical.skills.map((skill) => skill.title),
+      items: about.technical.skills.map((skill, index) => ({
+        id: `skill-${index}`,
+        label: skill.title,
+      })),
+    },
+    {
+      id: about.publications.title,
+      title: about.publications.title,
+      display: about.publications.display,
+      items: about.publications.groups.map((group, index) => ({
+        id: `publication-group-${index}`,
+        label: group.title,
+      })),
+    },
+    {
+      id: about.talks.title,
+      title: about.talks.title,
+      display: about.talks.display,
+      items: about.talks.groups.map((group, index) => ({
+        id: `talk-group-${index}`,
+        label: group.title,
+      })),
+    },
+    {
+      id: about.languages.title,
+      title: about.languages.title,
+      display: about.languages.display,
+      items: about.languages.items.map((language, index) => ({
+        id: `language-${index}`,
+        label: language.name,
+      })),
+    },
+    {
+      id: about.interests.title,
+      title: about.interests.title,
+      display: about.interests.display,
+      items: [],
     },
   ];
   return (
@@ -67,162 +137,69 @@ export default function About() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      {about.tableOfContent.display && (
-        <Column
-          left="0"
-          style={{ top: "50%", transform: "translateY(-50%)" }}
-          position="fixed"
-          paddingLeft="24"
-          gap="32"
-          s={{ hide: true }}
-        >
-          <TableOfContents structure={structure} about={about} />
-        </Column>
-      )}
-      <Row fillWidth s={{ direction: "column" }} horizontal="center">
+      <Row fillWidth gap="xl" s={{ direction: "column" }} horizontal="start">
         {about.avatar.display && (
-          <Column
-            className={styles.avatar}
-            top="64"
-            fitHeight
-            position="sticky"
-            s={{ position: "relative", style: { top: "auto" } }}
-            xs={{ style: { top: "auto" } }}
-            minWidth="160"
-            paddingX="l"
-            paddingBottom="xl"
-            gap="m"
-            flex={3}
-            horizontal="center"
-          >
+          <Column className={styles.sidebar} flex={3} gap="m">
             <Avatar src={person.avatar} size="xl" aria-label={person.name} />
-            <Row gap="8" vertical="center">
+            <Heading as="h1" className={styles.profileName} variant="heading-strong-l">
+              {person.name}
+            </Heading>
+            <Text className={styles.profileRole} variant="body-default-m">
+              {person.role}
+            </Text>
+            <Row gap="8" vertical="center" textVariant="body-default-s">
               <Icon onBackground="accent-weak" name="globe" />
               {person.location}
             </Row>
-            {person.languages && person.languages.length > 0 && (
-              <Row wrap gap="8">
-                {person.languages.map((language, index) => (
-                  <Tag key={index} size="l">
-                    {language}
-                  </Tag>
-                ))}
+            {social.length > 0 && (
+              <Row paddingY="8" gap="8" wrap>
+                {social
+                  .filter((item) => item.essential && item.link)
+                  .map((item) => (
+                    <IconButton
+                      key={item.name}
+                      href={item.link}
+                      icon={item.icon}
+                      tooltip={item.name}
+                      aria-label={item.name}
+                      size="m"
+                      variant="secondary"
+                    />
+                  ))}
               </Row>
             )}
+            <TableOfContents structure={structure} about={about} />
           </Column>
         )}
-        <Column className={styles.blockAlign} flex={9} maxWidth={40}>
-          <Column
-            id={about.intro.title}
-            fillWidth
-            minHeight="160"
-            vertical="center"
-            marginBottom="32"
-          >
-            {about.calendar.display && (
-              <Row
-                fitWidth
-                border="brand-alpha-medium"
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginBottom="m"
-                vertical="center"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-              >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                  aria-label="Schedule a call"
-                />
-              </Row>
-            )}
-            <Heading className={styles.textAlign} variant="display-strong-xl">
-              {person.name}
-            </Heading>
-            <Text
-              className={styles.textAlign}
-              variant="display-default-xs"
-              onBackground="neutral-weak"
-            >
-              {person.role}
-            </Text>
-            {social.length > 0 && (
-              <Row
-                className={styles.blockAlign}
-                paddingTop="20"
-                paddingBottom="8"
-                gap="8"
-                wrap
-                horizontal="center"
-                fitWidth
-                data-border="rounded"
-              >
-                {social
-                  .filter((item) => item.essential)
-                  .map(
-                    (item) =>
-                      item.link && (
-                        <React.Fragment key={item.name}>
-                          <Row s={{ hide: true }}>
-                            <Button
-                              key={item.name}
-                              href={item.link}
-                              prefixIcon={item.icon}
-                              label={item.name}
-                              size="s"
-                              weight="default"
-                              variant="secondary"
-                            />
-                          </Row>
-                          <Row hide s={{ hide: false }}>
-                            <IconButton
-                              size="l"
-                              key={`${item.name}-icon`}
-                              href={item.link}
-                              icon={item.icon}
-                              variant="secondary"
-                              aria-label={item.name}
-                            />
-                          </Row>
-                        </React.Fragment>
-                      ),
-                  )}
-              </Row>
-            )}
-          </Column>
-
+        <Column className={styles.content} flex={9} maxWidth={40}>
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+            <Column
+              id={about.intro.title}
+              className={styles.introduction}
+              textVariant="body-default-l"
+              fillWidth
+              gap="m"
+              marginBottom="xl"
+            >
               {about.intro.description}
             </Column>
           )}
 
           {about.work.display && (
             <>
-              <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
-                {about.work.title}
-              </Heading>
+              <SectionHeading id={about.work.title} title={about.work.title} icon="💼" />
               <Column fillWidth gap="l" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
                     <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} variant="heading-strong-l">
+                      <Text id={`experience-${index}`} variant="heading-strong-l">
                         {experience.company}
                       </Text>
                       <Text variant="heading-default-xs" onBackground="neutral-weak">
                         {experience.timeframe}
                       </Text>
                     </Row>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
+                    <Text variant="body-default-s" onBackground="neutral-weak" marginBottom="m">
                       {experience.role}
                     </Text>
                     <Column as="ul" gap="16">
@@ -267,13 +244,11 @@ export default function About() {
 
           {about.studies.display && (
             <>
-              <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
-                {about.studies.title}
-              </Heading>
+              <SectionHeading id={about.studies.title} title={about.studies.title} icon="🎓" />
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} variant="heading-strong-l">
+                    <Text id={`study-${index}`} variant="heading-strong-l">
                       {institution.name}
                     </Text>
                     <Text variant="heading-default-xs" onBackground="neutral-weak">
@@ -287,18 +262,11 @@ export default function About() {
 
           {about.technical.display && (
             <>
-              <Heading
-                as="h2"
-                id={about.technical.title}
-                variant="display-strong-s"
-                marginBottom="40"
-              >
-                {about.technical.title}
-              </Heading>
-              <Column fillWidth gap="l">
+              <SectionHeading id={about.technical.title} title={about.technical.title} icon="⚙️" />
+              <Column fillWidth gap="l" marginBottom="xl">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text id={skill.title} variant="heading-strong-l">
+                    <Text id={`skill-${index}`} variant="heading-strong-l">
                       {skill.title}
                     </Text>
                     <Text variant="body-default-m" onBackground="neutral-weak">
@@ -338,6 +306,113 @@ export default function About() {
                 ))}
               </Column>
             </>
+          )}
+
+          {about.publications.display && (
+            <Column fillWidth marginBottom="xl">
+              <SectionHeading
+                id={about.publications.title}
+                title={about.publications.title}
+                icon="📚"
+              />
+              {about.publications.groups.map((group, groupIndex) => (
+                <Column key={group.title} fillWidth marginBottom="l">
+                  <Heading
+                    as="h3"
+                    id={`publication-group-${groupIndex}`}
+                    variant="heading-strong-l"
+                    onBackground="neutral-weak"
+                    align="center"
+                    marginBottom="m"
+                  >
+                    {group.title}
+                  </Heading>
+                  <Column as="ul" gap="m">
+                    {group.items.map((publication, publicationIndex) => (
+                      <Text as="li" variant="body-default-m" key={publication.doi}>
+                        <Text as="span" weight="strong" onBackground="brand-medium">
+                          [{groupIndex === 0 ? "J" : "C"}{publicationIndex + 1}]
+                        </Text>{" "}
+                        {publication.authors} ({publication.date}). "{publication.title}."{" "}
+                        <Text as="span" onBackground="neutral-weak">
+                          {publication.venue}.
+                        </Text>{" "}
+                        <SmartLink href={`https://doi.org/${publication.doi}`}>
+                          DOI
+                        </SmartLink>
+                      </Text>
+                    ))}
+                  </Column>
+                </Column>
+              ))}
+            </Column>
+          )}
+
+          {about.talks.display && (
+            <Column fillWidth marginBottom="xl">
+              <SectionHeading id={about.talks.title} title={about.talks.title} icon="🎤" />
+              {about.talks.groups.map((group, groupIndex) => (
+                <Column key={group.title} fillWidth marginBottom="l">
+                  <Heading
+                    as="h3"
+                    id={`talk-group-${groupIndex}`}
+                    variant="heading-strong-l"
+                    onBackground="neutral-weak"
+                    align="center"
+                    marginBottom="m"
+                  >
+                    {group.title}
+                  </Heading>
+                  <Column as="ul" gap="m">
+                    {group.items.map((talk) => (
+                      <Text as="li" variant="body-default-m" key={`${talk.event}-${talk.title}`}>
+                        <Text as="span" weight="strong">
+                          {talk.title}
+                        </Text>{" "}
+                        <Text as="span" onBackground="neutral-weak">
+                          {talk.event}, {talk.date}, {talk.location}.
+                        </Text>
+                      </Text>
+                    ))}
+                  </Column>
+                </Column>
+              ))}
+            </Column>
+          )}
+
+          {about.languages.display && (
+            <Column fillWidth marginBottom="xl">
+              <SectionHeading id={about.languages.title} title={about.languages.title} icon="🌐" />
+              <Column fillWidth gap="m">
+                {about.languages.items.map((language, index) => (
+                  <Row
+                    key={language.name}
+                    id={`language-${index}`}
+                    fillWidth
+                    horizontal="between"
+                    vertical="center"
+                  >
+                    <Text variant="body-strong-m">{language.name}</Text>
+                    <Text variant="body-default-s" onBackground="neutral-weak">
+                      {language.level}/5
+                    </Text>
+                  </Row>
+                ))}
+              </Column>
+            </Column>
+          )}
+
+          {about.interests.display && (
+            <Column fillWidth marginBottom="xl">
+              <SectionHeading id={about.interests.title} title={about.interests.title} icon="🎸" />
+              <Row fillWidth wrap gap="8">
+                {about.interests.items.map((interest) => (
+                  <Tag key={interest} size="l">
+                    {interest}
+                  </Tag>
+                ))}
+              </Row>
+            </Column>
           )}
         </Column>
       </Row>

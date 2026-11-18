@@ -1,0 +1,31 @@
+.grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: 6px;
+  background: var(--surface-background);
+}
+
+.poster {
+  display: grid;
+  aspect-ratio: 16 / 9;
+  place-items: center;
+  border-bottom: 1px dashed var(--neutral-alpha-medium);
+  background: var(--neutral-alpha-weak);
+  color: var(--neutral-on-background-weak);
+  font-size: 0.875rem;
+}
+
+.cardBody {
+  flex: 1;
+  padding: 16px;
+}

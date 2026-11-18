@@ -23,6 +23,7 @@ import {
 } from "react-icons/pi";
 
 import { SiJavascript, SiNextdotjs, SiFigma, SiSupabase } from "react-icons/si";
+import { SiGooglescholar, SiOrcid } from "react-icons/si";
 
 import {
   FaDiscord,
@@ -72,6 +73,8 @@ export const iconLibrary = {
   reddit: FaReddit,
   telegram: FaTelegram,
   instagram: FaInstagram,
+  googleScholar: SiGooglescholar,
+  orcid: SiOrcid,
 } satisfies Record<string, IconType>;
 
 export type IconLibrary = typeof iconLibrary;

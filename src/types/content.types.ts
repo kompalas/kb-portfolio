@@ -23,8 +23,10 @@ export type Person = {
   avatar: string;
   /** Email address */
   email: string;
-  /** IANA time zone location */
-  location: IANATimeZone;
+  /** Public location */
+  location: string;
+  /** IANA time zone used for the live clock */
+  timeZone: IANATimeZone;
   /** Languages spoken */
   languages?: string[];
   /**
@@ -99,12 +101,6 @@ export interface Home extends BasePageConfig {
   image: `/images/${string}` | string;
   /** The headline of the home page */
   headline: React.ReactNode;
-  /** Featured badge, which appears above the headline */
-  featured: {
-    display: boolean;
-    title: React.ReactNode;
-    href: string;
-  };
   /** The sub text which appears below the headline */
   subline: React.ReactNode;
 }
@@ -214,6 +210,43 @@ export interface About extends BasePageConfig {
         height: number;
       }>;
     }>;
+  };
+  publications: {
+    display: boolean;
+    title: string;
+    groups: Array<{
+      title: string;
+      items: Array<{
+        authors: React.ReactNode;
+        title: string;
+        venue: string;
+        date: string;
+        doi: string;
+      }>;
+    }>;
+  };
+  talks: {
+    display: boolean;
+    title: string;
+    groups: Array<{
+      title: string;
+      items: Array<{
+        event: string;
+        title: string;
+        date: string;
+        location: string;
+      }>;
+    }>;
+  };
+  languages: {
+    display: boolean;
+    title: string;
+    items: Array<{ name: string; level: number }>;
+  };
+  interests: {
+    display: boolean;
+    title: string;
+    items: string[];
   };
 }
 

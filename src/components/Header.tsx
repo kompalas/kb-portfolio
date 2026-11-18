@@ -47,7 +47,8 @@ export default TimeDisplay;
 // src/resources/once-ui.config.ts; add a page here to give it a menu item.
 const navItems: { href: keyof typeof routes; icon: IconName; label: string }[] = [
   { href: "/about", icon: "person", label: about.label },
-  { href: "/work", icon: "grid", label: work.label },
+  { href: "/news", icon: "document", label: "News" },
+  { href: "/projects", icon: "grid", label: work.label },
   { href: "/blog", icon: "book", label: blog.label },
   { href: "/gallery", icon: "gallery", label: gallery.label },
 ];
@@ -146,7 +147,7 @@ export const Header = () => {
             gap="20"
           >
             <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
+              {display.time && <TimeDisplay timeZone={person.timeZone} />}
             </Flex>
           </Flex>
         </Flex>
