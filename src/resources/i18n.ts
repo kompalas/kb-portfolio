@@ -1,8 +1,15 @@
 export type Locale = "en" | "el";
 
+export const cvFiles: Record<Locale, string> = {
+  en: "/Konstantinos_Balaskas_CV.pdf",
+  el: "/Konstantinos_Balaskas_CV.pdf",
+};
+
 export const siteText: Record<Locale, Record<string, string>> = {
   en: {
     language: "Language",
+    switchToGreek: "Switch language to Greek",
+    switchToEnglish: "Switch language to English",
     location: "Thessaloniki, Greece",
     now: "Now:",
     currentRole: "Scientific Advisor at ELKAK",
@@ -59,6 +66,8 @@ export const siteText: Record<Locale, Record<string, string>> = {
   },
   el: {
     language: "Γλώσσα",
+    switchToGreek: "Αλλαγή γλώσσας σε Ελληνικά",
+    switchToEnglish: "Αλλαγή γλώσσας σε Αγγλικά",
     location: "Θεσσαλονίκη, Ελλάδα",
     now: "Τώρα:",
     currentRole: "Επιστημονικός Σύμβουλος στο ΕΛΚΑΚ",

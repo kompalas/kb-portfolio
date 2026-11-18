@@ -1,0 +1,31 @@
+.layer {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+
+.glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--cursor-glow-size);
+  height: var(--cursor-glow-size);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-background-strong), transparent 72%);
+  opacity: var(--cursor-glow-light-opacity);
+  transform: translate3d(var(--cursor-glow-x), var(--cursor-glow-y), 0) translate(-50%, -50%);
+}
+
+:global([data-theme="dark"]) .glow {
+  opacity: var(--cursor-glow-dark-opacity);
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .layer {
+    display: none;
+  }
+}

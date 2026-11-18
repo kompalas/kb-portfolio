@@ -15,6 +15,7 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
+import { CursorGlow } from "@/components/CursorGlow";
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 import { getSiteLocale } from "@/utils/language";
 
@@ -175,9 +176,10 @@ export default async function RootLayout({
               }}
             />
           </RevealFx>
+          <CursorGlow />
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header locale={locale} />
-          <Flex as="main" zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
+          <Flex as="main" zIndex={1} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>
             </Flex>

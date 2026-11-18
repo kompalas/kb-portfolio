@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Column,
   Heading,
   Icon,
@@ -16,7 +17,7 @@ import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import { getSiteLocale } from "@/utils/language";
-import { siteText } from "@/resources/i18n";
+import { cvFiles, siteText } from "@/resources/i18n";
 import React from "react";
 
 const greekExperience = [
@@ -122,6 +123,7 @@ export default async function About() {
   const locale = await getSiteLocale();
   const text = siteText[locale];
   const isGreek = locale === "el";
+  const essentialSocial = social.filter((item) => item.essential && item.link);
   const structure = [
     {
       id: about.intro.title,
@@ -198,10 +200,10 @@ export default async function About() {
               <Icon onBackground="accent-weak" name="globe" />
               {text.location}
             </Row>
-            {social.length > 0 && (
+            {essentialSocial.length > 0 && (
               <Row paddingY="4" gap="4" wrap>
-                {social
-                  .filter((item) => item.essential && item.link)
+                {essentialSocial
+                  .filter((item) => !item.link?.startsWith("mailto:"))
                   .map((item) => (
                     <IconButton
                       key={item.name}
@@ -213,11 +215,32 @@ export default async function About() {
                       variant="secondary"
                     />
                   ))}
+                {essentialSocial
+                  .filter((item) => item.link?.startsWith("mailto:"))
+                  .map((item) => (
+                    <IconButton
+                      key={item.name}
+                      href={item.link}
+                      icon={item.icon}
+                      tooltip={item.name}
+                      aria-label={item.name}
+                      size="s"
+                      variant="secondary"
+                    />
+                  ))}
+                <Button
+                  href={cvFiles[locale]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                  size="s"
+                  weight="default"
+                  suffixIcon="arrowUpRightFromSquare"
+                >
+                  {text.cv}
+                </Button>
               </Row>
             )}
-            <SmartLink href="/cv.pdf" target="_blank" suffixIcon="arrowUpRightFromSquare">
-              {text.cv}
-            </SmartLink>
             <TableOfContents structure={structure} display={about.tableOfContent.display} />
           </Column>
         )}
@@ -225,7 +248,7 @@ export default async function About() {
           {about.intro.display && (
             <Column
               id={about.intro.title}
-              className={styles.introduction}
+              className={`${styles.introduction} ${styles.hoverBlock}`}
               textVariant="body-default-l"
               fillWidth
               gap="m"
@@ -255,7 +278,11 @@ export default async function About() {
               <SectionHeading id={about.work.title} title={text.professionalExperience} icon="💼" />
               <Column fillWidth gap="l" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
+                  <Column
+                    key={`${experience.company}-${experience.role}-${index}`}
+                    className={styles.hoverBlock}
+                    fillWidth
+                  >
                     {(() => {
                       const localized = isGreek ? greekExperience[index] : experience;
                       return (
@@ -319,7 +346,12 @@ export default async function About() {
               <SectionHeading id={about.studies.title} title={text.studies} icon="🎓" />
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
-                  <Column key={`${institution.name}-${index}`} fillWidth gap="4">
+                  <Column
+                    key={`${institution.name}-${index}`}
+                    className={styles.hoverBlock}
+                    fillWidth
+                    gap="4"
+                  >
                     <Text id={`study-${index}`} variant="heading-strong-l">
                       {isGreek ? greekStudies[index] : institution.name}
                     </Text>
@@ -343,7 +375,12 @@ export default async function About() {
               <SectionHeading id={about.technical.title} title={text.technicalSkills} icon="⚙️" />
               <Column fillWidth gap="l" marginBottom="xl">
                 {about.technical.skills.map((skill, index) => (
-                  <Column key={`${skill}-${index}`} fillWidth gap="4">
+                  <Column
+                    key={`${skill}-${index}`}
+                    className={styles.hoverBlock}
+                    fillWidth
+                    gap="4"
+                  >
                     <Text id={`skill-${index}`} variant="heading-strong-l">
                       {isGreek
                         ? [
@@ -399,7 +436,12 @@ export default async function About() {
               <SectionHeading id={about.teaching.title} title={text.teaching} icon="🎓" />
               <Column fillWidth gap="m">
                 {about.teaching.items.map((item, index) => (
-                  <Column key={item.activity} fillWidth gap="4">
+                  <Column
+                    key={item.activity}
+                    className={styles.hoverBlock}
+                    fillWidth
+                    gap="4"
+                  >
                     <Row fillWidth horizontal="between" vertical="center">
                       <Text variant="body-strong-m">
                         {isGreek
@@ -450,7 +492,12 @@ export default async function About() {
                   </Heading>
                   <Column as="ul" gap="m">
                     {group.items.map((publication, publicationIndex) => (
-                      <Text as="li" variant="body-default-m" key={publication.doi}>
+                      <Text
+                        as="li"
+                        className={styles.hoverBlock}
+                        variant="body-default-m"
+                        key={publication.doi}
+                      >
                         <Text as="span" weight="strong" onBackground="brand-medium">
                           [{groupIndex === 0 ? "J" : "C"}{publicationIndex + 1}]
                         </Text>{" "}
@@ -490,7 +537,12 @@ export default async function About() {
                   </Heading>
                   <Column as="ul" gap="m">
                     {group.items.map((talk) => (
-                      <Text as="li" variant="body-default-m" key={`${talk.event}-${talk.title}`}>
+                      <Text
+                        as="li"
+                        className={styles.hoverBlock}
+                        variant="body-default-m"
+                        key={`${talk.event}-${talk.title}`}
+                      >
                         <Text as="span" weight="strong">
                           {talk.title}
                         </Text>{" "}

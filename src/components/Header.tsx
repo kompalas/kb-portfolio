@@ -94,10 +94,10 @@ export const Header = ({ locale }: { locale: Locale }) => {
           position: "fixed",
         }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center">
+        <Row className={styles.languageSlot} fillWidth vertical="center">
           <LanguageToggle locale={locale} />
         </Row>
-        <Row fillWidth horizontal="center">
+        <Row className={styles.menuSlot} fillWidth horizontal="center">
           <Row
             background="page"
             border="neutral-alpha-weak"
@@ -149,7 +149,7 @@ export const Header = ({ locale }: { locale: Locale }) => {
             </Row>
           </Row>
         </Row>
-        <Flex fillWidth horizontal="end" vertical="center">
+        <Flex className={styles.secondaryInfo} fillWidth horizontal="end" vertical="center">
           <Column
             paddingRight="12"
             horizontal="end"

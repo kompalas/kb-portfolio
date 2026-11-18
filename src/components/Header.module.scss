@@ -8,6 +8,10 @@
     mask-size: 100% 100%;
 }
 
+.languageSlot {
+    padding-left: var(--static-space-12);
+}
+
 @media (max-width: breakpoints.$s) {
     .position {
         top: auto;
@@ -18,5 +22,24 @@
     .mask {
         transform: rotate(180deg);
         bottom: 0;
+    }
+
+    .languageSlot {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        z-index: 2;
+        width: auto !important;
+        height: 40px;
+        padding-left: 0;
+        transform: translateY(-50%);
+    }
+
+    .menuSlot {
+        padding-left: var(--static-space-8);
+    }
+
+    .secondaryInfo {
+        display: none;
     }
 }

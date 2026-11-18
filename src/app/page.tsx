@@ -15,6 +15,7 @@ import { NewsTimeline } from "@/components/HomeNews";
 import { ContactForm } from "@/components/ContactForm";
 import { getSiteLocale } from "@/utils/language";
 import { siteText } from "@/resources/i18n";
+import styles from "./home-intro.module.scss";
 
 export async function generateMetadata() {
   const metadata = Meta.generate({
@@ -64,21 +65,26 @@ export default async function Home() {
             </Row>
           </Badge>
         </RevealFx>
-        <RevealFx translateY="4" fillWidth>
-          <Heading wrap="balance" variant="display-strong-l">
-            {locale === "el"
-              ? "Συν-σχεδιάζοντας μηχανική μάθηση και υλικό για την άκρη του δικτύου"
-              : home.headline}
-          </Heading>
-        </RevealFx>
-        <RevealFx translateY="8" delay={150} fillWidth>
-          <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-l">
-            {locale === "el"
-              ? "Είμαι ο Κωνσταντίνος, μεταδιδακτορικός ερευνητής στο Edge AI. Συν-σχεδιάζω μοντέλα μηχανικής μάθησης και το υλικό που τα εκτελεί, από FPGA και automotive SoC έως εύκαμπτα ηλεκτρονικά χαμηλού κόστους."
-              : home.subline}
-          </Text>
-        </RevealFx>
-        <RevealFx delay={300} paddingTop="8">
+        <Heading
+          className={styles.headlineReveal}
+          wrap="balance"
+          variant="display-strong-l"
+        >
+          {locale === "el"
+            ? "Συν-σχεδιάζοντας μηχανική μάθηση και υλικό για την άκρη του δικτύου"
+            : home.headline}
+        </Heading>
+        <Text
+          className={styles.sublineReveal}
+          wrap="balance"
+          onBackground="neutral-weak"
+          variant="heading-default-l"
+        >
+          {locale === "el"
+            ? "Είμαι ο Κωνσταντίνος, μεταδιδακτορικός ερευνητής στο Edge AI. Συν-σχεδιάζω μοντέλα μηχανικής μάθησης και το υλικό που τα εκτελεί, από FPGA και automotive SoC έως εύκαμπτα ηλεκτρονικά χαμηλού κόστους."
+            : home.subline}
+        </Text>
+        <div className={styles.actionsReveal}>
           <Button href={about.path} variant="secondary" size="m" weight="default" arrowIcon>
             <Row gap="8" vertical="center" paddingRight="4">
               {about.avatar.display && (
@@ -93,7 +99,7 @@ export default async function Home() {
               {text.aboutMe}
             </Row>
           </Button>
-        </RevealFx>
+        </div>
       </Column>
       <NewsTimeline previewCount={3} locale={locale} />
       <ContactForm locale={locale} />

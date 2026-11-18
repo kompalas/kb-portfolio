@@ -17,27 +17,36 @@ export function LanguageToggle({ locale }: { locale: Locale }) {
 
   return (
     <div
-      className={styles.switch}
-      data-locale={locale}
+      className={styles.toggle}
       role="group"
       aria-label={siteText[locale].language}
     >
-      <span className={styles.thumb} aria-hidden="true" />
+      <div className={styles.switch} data-locale={locale}>
+        <span className={styles.thumb} aria-hidden="true" />
+        <button
+          className={`${styles.option} ${locale === "en" ? styles.active : ""}`}
+          type="button"
+          aria-pressed={locale === "en"}
+          onClick={() => setLocale("en")}
+        >
+          EN
+        </button>
+        <button
+          className={`${styles.option} ${locale === "el" ? styles.active : ""}`}
+          type="button"
+          aria-pressed={locale === "el"}
+          onClick={() => setLocale("el")}
+        >
+          EL
+        </button>
+      </div>
       <button
-        className={`${styles.option} ${locale === "en" ? styles.active : ""}`}
+        className={styles.compact}
         type="button"
-        aria-pressed={locale === "en"}
-        onClick={() => setLocale("en")}
+        aria-label={locale === "en" ? siteText.en.switchToGreek : siteText.el.switchToEnglish}
+        onClick={() => setLocale(locale === "en" ? "el" : "en")}
       >
-        EN
-      </button>
-      <button
-        className={`${styles.option} ${locale === "el" ? styles.active : ""}`}
-        type="button"
-        aria-pressed={locale === "el"}
-        onClick={() => setLocale("el")}
-      >
-        EL
+        {locale === "en" ? "EL" : "EN"}
       </button>
     </div>
   );

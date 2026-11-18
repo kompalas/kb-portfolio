@@ -1,0 +1,47 @@
+.headlineReveal,
+.sublineReveal,
+.actionsReveal {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: var(--page-background);
+    clip-path: inset(0 0 0 100%);
+    content: "";
+    pointer-events: none;
+    animation: reveal-cover 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.sublineReveal::after {
+  animation-delay: 120ms;
+}
+
+.actionsReveal {
+  padding-top: var(--static-space-8);
+
+  &::after {
+    animation-delay: 240ms;
+  }
+}
+
+@keyframes reveal-cover {
+  from {
+    clip-path: inset(0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headlineReveal::after,
+  .sublineReveal::after,
+  .actionsReveal::after {
+    animation: none;
+  }
+}
