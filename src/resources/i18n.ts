@@ -1,8 +1,8 @@
 export type Locale = "en" | "el";
 
 export const cvFiles: Record<Locale, string> = {
-  en: "/Konstantinos_Balaskas_CV.pdf",
-  el: "/Konstantinos_Balaskas_CV.pdf",
+  en: "/Konstantinos_Balaskas.pdf",
+  el: "/Konstantinos_Balaskas.pdf",
 };
 
 export const siteText: Record<Locale, Record<string, string>> = {
