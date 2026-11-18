@@ -79,7 +79,7 @@ const about: About = {
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
   tableOfContent: {
     display: true,
-    subItems: true,
+    subItems: false,
   },
   avatar: {
     display: true,
@@ -109,7 +109,7 @@ const about: About = {
   },
   work: {
     display: true, // set to false to hide this section
-    title: "Work Experience",
+    title: "Professional Experience",
     experiences: [
         {
           company: "HCDI/ELKAK",
@@ -118,7 +118,7 @@ const about: About = {
           achievements: [
             <>Core team member in ELKAK's IT department.</>,
             <>Secretarial support to the CIO.</>,
-            <>[TODO: confirm whether to keep this entry; it is mandatory military service.]</>,
+            <>Fulfilled mandatory military service through Greece's specialist-scientist corps.</>,
           ],
           images: [],
         },
@@ -194,6 +194,22 @@ const about: About = {
           ],
           images: [],
         },
+    ],
+  },
+  teaching: {
+    display: true,
+    title: "Teaching & Supervision",
+    items: [
+      {
+        activity: "Co-instructed Bachelor and Master courses (IoT Lab, Embedded ML, Embedded Systems II)",
+        context: "Karlsruhe Institute of Technology (KIT)",
+        timeframe: "2021 - 2024",
+      },
+      {
+        activity: "Supervised several Bachelor and Master theses",
+        context: "KIT and University of Patras",
+        timeframe: "2021 - 2025",
+      },
     ],
   },
   studies: {
@@ -506,10 +522,10 @@ const about: About = {
     display: true,
     title: "Languages",
     items: [
-      { name: "English", level: 5 },
-      { name: "Spanish", level: 3.5 },
-      { name: "German", level: 1 },
-      { name: "Greek", level: 5 },
+      { name: "English", level: 5, proficiency: "C2 - Full professional proficiency" },
+      { name: "Spanish", level: 3.5, proficiency: "B2 - Upper-intermediate proficiency" },
+      { name: "German", level: 1, proficiency: "Basic - Basic knowledge" },
+      { name: "Greek", level: 5, proficiency: "Native - Mother tongue" },
     ],
   },
   interests: {
@@ -531,7 +547,7 @@ const blog: Blog = {
 const work: Work = {
   path: "/projects",
   label: "Projects",
-  title: `Projects – ${person.name}`,
+  title: "Projects",
   description: `Research projects in edge AI, machine learning accelerators, approximate computing, and flexible electronics by ${person.name}.`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes

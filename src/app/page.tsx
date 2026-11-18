@@ -11,9 +11,10 @@ import {
   Meta,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL } from "@/resources";
-import { news } from "@/resources/news";
 import { NewsTimeline } from "@/components/HomeNews";
 import { ContactForm } from "@/components/ContactForm";
+import { getSiteLocale } from "@/utils/language";
+import { siteText } from "@/resources/i18n";
 
 export async function generateMetadata() {
   const metadata = Meta.generate({
@@ -27,8 +28,9 @@ export async function generateMetadata() {
   return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
 }
 
-export default function Home() {
-  const latestNews = news[0];
+export default async function Home() {
+  const locale = await getSiteLocale();
+  const text = siteText[locale];
 
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
@@ -46,32 +48,34 @@ export default function Home() {
         }}
       />
       <Column as="section" id="home-intro" fillWidth gap="m" align="start">
-        {latestNews && (
-          <RevealFx fillWidth>
-            <Badge
-              background="brand-alpha-weak"
-              paddingX="12"
-              paddingY="4"
-              onBackground="neutral-strong"
-              textVariant="label-default-s"
-              arrow={false}
-              href="#recent-news"
-            >
-              <Row paddingY="2" gap="8">
-                <Text weight="strong">Latest</Text>
-                <Text>{latestNews.title}</Text>
-              </Row>
-            </Badge>
-          </RevealFx>
-        )}
+        <RevealFx fillWidth>
+          <Badge
+            background="brand-alpha-weak"
+            paddingX="12"
+            paddingY="4"
+            onBackground="neutral-strong"
+            textVariant="label-default-s"
+            arrow={false}
+            href="/news"
+          >
+            <Row paddingY="2" gap="8">
+              <Text weight="strong">{text.now}</Text>
+              <Text>{text.currentRole}</Text>
+            </Row>
+          </Badge>
+        </RevealFx>
         <RevealFx translateY="4" fillWidth>
           <Heading wrap="balance" variant="display-strong-l">
-            {home.headline}
+            {locale === "el"
+              ? "Συν-σχεδιάζοντας μηχανική μάθηση και υλικό για την άκρη του δικτύου"
+              : home.headline}
           </Heading>
         </RevealFx>
         <RevealFx translateY="8" delay={150} fillWidth>
           <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-l">
-            {home.subline}
+            {locale === "el"
+              ? "Είμαι ο Κωνσταντίνος, μεταδιδακτορικός ερευνητής στο Edge AI. Συν-σχεδιάζω μοντέλα μηχανικής μάθησης και το υλικό που τα εκτελεί, από FPGA και automotive SoC έως εύκαμπτα ηλεκτρονικά χαμηλού κόστους."
+              : home.subline}
           </Text>
         </RevealFx>
         <RevealFx delay={300} paddingTop="8">
@@ -86,13 +90,13 @@ export default function Home() {
                   aria-hidden
                 />
               )}
-              About me
+              {text.aboutMe}
             </Row>
           </Button>
         </RevealFx>
       </Column>
-      <NewsTimeline previewCount={3} />
-      <ContactForm />
+      <NewsTimeline previewCount={3} locale={locale} />
+      <ContactForm locale={locale} />
     </Column>
   );
 }

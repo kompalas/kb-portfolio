@@ -4,10 +4,12 @@ import { useState, type FormEvent } from "react";
 import { Button, Column, Heading, Input, Row, Text } from "@once-ui-system/core";
 import { person } from "@/resources";
 import styles from "./ContactForm.module.scss";
+import { siteText, type Locale } from "@/resources/i18n";
 
 const formEndpoint = process.env.NEXT_PUBLIC_FORM_ENDPOINT?.trim();
 
-export const ContactForm = () => {
+export const ContactForm = ({ locale = "en" }: { locale?: Locale }) => {
+  const text = siteText[locale];
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "handoff" | "error">("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -68,24 +70,24 @@ export const ContactForm = () => {
       align="center"
     >
       <Heading as="h2" variant="display-strong-xs">
-        Contact Me
+        {text.contactMe}
       </Heading>
       <Text className={styles.intro} onBackground="neutral-weak">
-        Send me a message, and I'll get back to you as soon as possible.
+        {text.contactIntro}
       </Text>
       <form className={styles.form} onSubmit={handleSubmit}>
           <Column fillWidth gap="m">
-            <Input id="contact-name" name="name" label="Name" autoComplete="name" required />
+            <Input id="contact-name" name="name" label={text.name} autoComplete="name" required />
             <Input
               id="contact-email"
               name="email"
               type="email"
-              label="Email"
+              label={text.email}
               autoComplete="email"
               required
             />
             <label className={styles.messageField} htmlFor="contact-message">
-              Message
+              {text.message}
               <textarea id="contact-message" name="message" required rows={5} />
             </label>
             <label className={styles.honeypot} aria-hidden="true">
@@ -94,17 +96,17 @@ export const ContactForm = () => {
             </label>
             {status === "success" && (
               <Text role="status" onBackground="brand-medium">
-                Thanks for your message. I'll be in touch.
+                {text.messageSent}
               </Text>
             )}
             {status === "handoff" && (
               <Text role="status" onBackground="brand-medium">
-                Your email app should open with your message ready to send.
+                {text.mailHandoff}
               </Text>
             )}
             {status === "error" && (
               <Text role="alert" onBackground="danger-strong">
-                Your message could not be sent. Please try again or email me directly.
+                {text.messageError}
               </Text>
             )}
             <Row fillWidth>
@@ -115,7 +117,7 @@ export const ContactForm = () => {
                 loading={status === "sending"}
                 disabled={status === "sending"}
               >
-                Send message
+                {text.sendMessage}
               </Button>
             </Row>
           </Column>

@@ -3,10 +3,13 @@
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { Column, Fade, Flex, Line, Row, Text, ToggleButton } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, work, gallery } from "@/resources";
 import type { IconName } from "@/resources/icons";
+import type { Locale } from "@/resources/i18n";
+import { siteText } from "@/resources/i18n";
+import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
@@ -45,16 +48,24 @@ export default TimeDisplay;
 
 // Pages in the menu, in order. A page shows when its route is enabled in
 // src/resources/once-ui.config.ts; add a page here to give it a menu item.
-const navItems: { href: keyof typeof routes; icon: IconName; label: string }[] = [
-  { href: "/about", icon: "person", label: about.label },
-  { href: "/news", icon: "document", label: "News" },
-  { href: "/projects", icon: "grid", label: work.label },
-  { href: "/blog", icon: "book", label: blog.label },
-  { href: "/gallery", icon: "gallery", label: gallery.label },
+const navItems: {
+  href: string;
+  route: keyof typeof routes;
+  icon: IconName;
+  label: string;
+  labelKey?: keyof typeof siteText.en;
+}[] = [
+  { href: "/about", route: "/about", icon: "person", label: about.label, labelKey: "aboutMe" },
+  { href: "/news", route: "/news", icon: "newspaper", label: "News", labelKey: "newsTitle" },
+  { href: "/projects", route: "/projects", icon: "algorithm", label: work.label, labelKey: "projectsTitle" },
+  { href: "/#contact", route: "/", icon: "email", label: "Contact", labelKey: "contact" },
+  { href: "/blog", route: "/blog", icon: "book", label: blog.label },
+  { href: "/gallery", route: "/gallery", icon: "gallery", label: gallery.label },
 ];
 
-export const Header = () => {
+export const Header = ({ locale }: { locale: Locale }) => {
   const pathname = usePathname() ?? "";
+  const labels = siteText[locale];
 
   return (
     <>
@@ -83,8 +94,8 @@ export const Header = () => {
           position: "fixed",
         }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
+        <Row paddingLeft="12" fillWidth vertical="center">
+          <LanguageToggle locale={locale} />
         </Row>
         <Row fillWidth horizontal="center">
           <Row
@@ -108,22 +119,22 @@ export const Header = () => {
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
               {navItems.map(
                 (item) =>
-                  routes[item.href] && (
+                  routes[item.route] && (
                     <Fragment key={item.href}>
                       <Row s={{ hide: true }}>
                         <ToggleButton
                           prefixIcon={item.icon}
                           href={item.href}
-                          label={item.label}
-                          selected={pathname.startsWith(item.href)}
+                          label={item.labelKey ? labels[item.labelKey] : item.label}
+                          selected={item.route !== "/" && pathname.startsWith(item.route)}
                         />
                       </Row>
                       <Row hide s={{ hide: false }}>
                         <ToggleButton
                           prefixIcon={item.icon}
                           href={item.href}
-                          aria-label={item.label}
-                          selected={pathname.startsWith(item.href)}
+                          aria-label={item.labelKey ? labels[item.labelKey] : item.label}
+                          selected={item.route !== "/" && pathname.startsWith(item.route)}
                         />
                       </Row>
                     </Fragment>
@@ -139,17 +150,21 @@ export const Header = () => {
           </Row>
         </Row>
         <Flex fillWidth horizontal="end" vertical="center">
-          <Flex
+          <Column
             paddingRight="12"
             horizontal="end"
             vertical="center"
-            textVariant="body-default-s"
-            gap="20"
+            gap="2"
+            textVariant="body-default-xs"
+            suppressHydrationWarning
           >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.timeZone} />}
-            </Flex>
-          </Flex>
+            {display.location && (
+              <Row s={{ hide: true }}>
+                <Text onBackground="neutral-weak">{siteText[locale].location}</Text>
+              </Row>
+            )}
+            {display.time && <TimeDisplay timeZone={person.timeZone} />}
+          </Column>
         </Flex>
       </Row>
     </>

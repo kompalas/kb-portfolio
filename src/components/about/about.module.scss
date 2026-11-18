@@ -10,14 +10,14 @@
 
 .sidebar {
     position: sticky;
-    top: 96px;
+    top: 88px;
     flex: 0 0 16rem;
     align-self: flex-start;
-    padding-right: var(--static-space-8);
+    padding-right: var(--static-space-4);
 }
 
 .profileName {
-    margin-top: var(--static-space-8);
+    margin-top: var(--static-space-4);
 }
 
 .profileRole {
@@ -26,8 +26,8 @@
 
 .navigation {
     width: 100%;
-    margin-top: var(--static-space-8);
-    padding-top: var(--static-space-16);
+    margin-top: var(--static-space-4);
+    padding-top: var(--static-space-8);
     border-top: 1px solid var(--neutral-alpha-medium);
 }
 
@@ -36,8 +36,7 @@
     color: var(--neutral-on-background-strong);
 }
 
-.navigationLink,
-.navigationSubLink {
+.navigationLink {
     display: block;
     min-width: 0;
     padding: var(--static-space-4) var(--static-space-8);
@@ -47,15 +46,9 @@
     transition: color var(--transition-micro-medium), border-color var(--transition-micro-medium);
 }
 
-.navigationLink:hover,
-.navigationSubLink:hover {
+.navigationLink:hover {
     border-left-color: var(--neutral-on-background-strong);
     color: var(--neutral-on-background-strong);
-}
-
-.navigationSubLink {
-    margin-left: var(--static-space-12);
-    font-size: 0.875rem;
 }
 
 .content {
@@ -84,6 +77,31 @@
     scroll-margin-top: 6rem;
 }
 
+.languageBubbles {
+    flex: 0 0 auto;
+}
+
+.languageBubble {
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--neutral-alpha-medium);
+    border-radius: 50%;
+    background: var(--neutral-alpha-weak);
+}
+
+.filledBubble {
+    border-color: var(--neutral-on-background-strong);
+    background: var(--neutral-on-background-strong);
+}
+
+.partialBubble {
+    background: linear-gradient(
+        90deg,
+        var(--neutral-on-background-strong) 50%,
+        var(--neutral-alpha-weak) 50%
+    );
+}
+
 @media (max-width: breakpoints.$s) {
     .sidebar {
         position: static;
@@ -106,8 +124,7 @@
     }
 }
 
-.navigationLink:focus-visible,
-.navigationSubLink:focus-visible {
+.navigationLink:focus-visible {
     outline: 2px solid var(--neutral-on-background-strong);
     outline-offset: 2px;
 }

@@ -167,6 +167,15 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
+  teaching: {
+    display: boolean;
+    title: string;
+    items: Array<{
+      activity: string;
+      context: string;
+      timeframe: string;
+    }>;
+  };
   /** Studies/education section */
   studies: {
     /** Whether to display studies section */
@@ -241,7 +250,7 @@ export interface About extends BasePageConfig {
   languages: {
     display: boolean;
     title: string;
-    items: Array<{ name: string; level: number }>;
+    items: Array<{ name: string; level: number; proficiency: string }>;
   };
   interests: {
     display: boolean;

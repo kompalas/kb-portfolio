@@ -13,6 +13,19 @@
   border: 1px solid var(--neutral-alpha-medium);
   border-radius: 6px;
   background: var(--surface-background);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--transition-micro-medium), transform var(--transition-micro-medium);
+}
+
+.card:hover {
+  border-color: var(--neutral-on-background-weak);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--neutral-on-background-strong);
+  outline-offset: 3px;
 }
 
 .poster {

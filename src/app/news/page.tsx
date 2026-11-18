@@ -1,6 +1,8 @@
 import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 import { about, baseURL, home, person } from "@/resources";
 import { NewsTimeline } from "@/components/HomeNews";
+import { getSiteLocale } from "@/utils/language";
+import { siteText } from "@/resources/i18n";
 
 const title = `News - ${person.name}`;
 const description = `News and milestones from ${person.name}'s research career.`;
@@ -16,7 +18,9 @@ export async function generateMetadata() {
   return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
 }
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const locale = await getSiteLocale();
+  const text = siteText[locale];
   return (
     <Column maxWidth="m" fillWidth gap="m" paddingY="24">
       <Schema
@@ -32,12 +36,12 @@ export default function NewsPage() {
         }}
       />
       <Heading as="h1" variant="display-strong-l">
-        News
+        {text.newsTitle}
       </Heading>
       <Text variant="body-default-l" onBackground="neutral-weak">
-        Research, publications, and career milestones.
+        {text.newsDescription}
       </Text>
-      <NewsTimeline />
+      <NewsTimeline locale={locale} />
     </Column>
   );
 }

@@ -1,20 +1,68 @@
 import { Button, Column, Heading, Row, SmartLink, Tag, Text } from "@once-ui-system/core";
 import { news } from "@/resources/news";
 import styles from "./HomeNews.module.scss";
+import { siteText, type Locale } from "@/resources/i18n";
 
 type NewsTimelineProps = {
   previewCount?: number;
+  locale?: Locale;
 };
 
-function formatMonth(date: string): string {
+const greekCareerItems: Record<string, { title: string; text: string }> = {
+  "Started as Scientific Advisor at the Hellenic Center for Defence Innovation (HCDI/ELKAK), Athens": {
+    title: "Ανάληψη καθηκόντων Επιστημονικού Συμβούλου στο ΕΛΚΑΚ, Αθήνα",
+    text: "Έναρξη υπηρεσίας στο τμήμα Πληροφορικής του ΕΛΚΑΚ.",
+  },
+  "Completed my post-doc at the University of Patras (CEID)": {
+    title: "Ολοκλήρωση μεταδιδακτορικής έρευνας στο Πανεπιστήμιο Πατρών (CEID)",
+    text: "Ευχαριστώ τους συναδέλφους και τους φοιτητές στο CEID για τη συνεργασία.",
+  },
+  "Started as a post-doctoral researcher at the University of Patras (CEID)": {
+    title: "Έναρξη μεταδιδακτορικής έρευνας στο Πανεπιστήμιο Πατρών (CEID)",
+    text: "Ανάληψη ηγετικού ρόλου στο έργο AutoPNN.",
+  },
+  "Completed my doctoral research at Karlsruhe Institute of Technology (KIT)": {
+    title: "Ολοκλήρωση διδακτορικής έρευνας στο KIT",
+    text: "Ευχαριστώ τους συναδέλφους και συνεργάτες στο KIT για την υποστήριξη και τη συνεργασία.",
+  },
+  "Started doctoral research at Karlsruhe Institute of Technology (KIT)": {
+    title: "Έναρξη διδακτορικής έρευνας στο KIT",
+    text: "Έναρξη στο KIT, ένα έτος μετά την έναρξη του διδακτορικού στο Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης.",
+  },
+  "Started my PhD at Aristotle University of Thessaloniki (AUTH)": {
+    title: "Έναρξη διδακτορικού στο Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης (AUTH)",
+    text: "Έναρξη διδακτορικών σπουδών στην Πληροφορική/Μηχανική Η.Υ., με κοινή σύνδεση με το KIT.",
+  },
+};
+
+function localizedItem(item: (typeof news)[number], locale: Locale) {
+  if (locale !== "el") return item;
+  if (item.tag === "Career") return greekCareerItems[item.title] ?? item;
+
+  const title = item.title
+    .replace("Invited paper at ", "Προσκεκλημένη εργασία στο ")
+    .replace(" published at ", " δημοσιεύτηκε στο ")
+    .replace(" published in ", " δημοσιεύτηκε στο ")
+    .replace(" presented at ", " παρουσιάστηκε στο ");
+  const text = item.text
+    .replace("Conference paper published at ", "Δημοσίευση σε συνέδριο στο ")
+    .replace("Journal article, ", "Άρθρο σε επιστημονικό περιοδικό, ")
+    .replace("Invited conference paper on ", "Προσκεκλημένη εργασία για ")
+    .replace("Presented at ETS in ", "Παρουσιάστηκε στο ETS στο ");
+
+  return { ...item, title, text };
+}
+
+function formatMonth(date: string, locale: Locale): string {
   const [year, month] = date.split("-").map(Number);
   if (!month) return String(year);
-  return new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(
+  return new Intl.DateTimeFormat(locale === "el" ? "el-GR" : "en", { month: "short", year: "numeric" }).format(
     new Date(year, month - 1, 1),
   );
 }
 
-export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount }) => {
+export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount, locale = "en" }) => {
+  const text = siteText[locale];
   const sortedNews = [...news].sort((first, second) => second.date.localeCompare(first.date));
   const visibleNews = previewCount ? sortedNews.slice(0, previewCount) : sortedNews;
   const years = [...new Set(visibleNews.map((item) => item.date.slice(0, 4)))].sort((a, b) =>
@@ -31,7 +79,7 @@ export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount }) => {
     <Column as="section" id="recent-news" className={styles.section} fillWidth gap="m">
       {previewCount && (
         <Heading as="h2" variant="display-strong-xs">
-          Recent news
+          {text.recentNews}
         </Heading>
       )}
       <div id="recent-news-list">
@@ -49,24 +97,33 @@ export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount }) => {
             )}
             <div className={styles.timeline}>
               {group.items.map((item) => (
-                <article className={styles.entry} key={`${item.date}-${item.title}`}>
-                  <Text className={styles.date} variant="body-default-s" onBackground="neutral-weak">
-                    {formatMonth(item.date)}
-                  </Text>
-                  <div className={styles.marker} aria-hidden="true">
-                    <span className={styles.dot} />
-                  </div>
-                  <Column className={styles.body} gap="4">
-                    <Text variant="body-strong-m">{item.title}</Text>
-                    <Text variant="body-default-s" onBackground="neutral-weak">
-                      {item.text}
-                    </Text>
-                    <Row gap="8" vertical="center">
-                      {item.tag && <Tag size="s">{item.tag}</Tag>}
-                      {item.link && <SmartLink href={item.link}>Paper</SmartLink>}
-                    </Row>
-                  </Column>
-                </article>
+                  (() => {
+                    const localized = localizedItem(item, locale);
+                    const tag =
+                      locale === "el"
+                        ? { Career: "Καριέρα", Paper: "Δημοσίευση", Talk: "Ομιλία" }[item.tag ?? ""]
+                        : item.tag;
+                    return (
+                      <article className={styles.entry} key={`${item.date}-${item.title}`}>
+                        <Text className={styles.date} variant="body-default-s" onBackground="neutral-weak">
+                          {formatMonth(item.date, locale)}
+                        </Text>
+                        <div className={styles.marker} aria-hidden="true">
+                          <span className={styles.dot} />
+                        </div>
+                        <Column className={styles.body} gap="4">
+                          <Text variant="body-strong-m">{localized.title}</Text>
+                          <Text variant="body-default-s" onBackground="neutral-weak">
+                            {localized.text}
+                          </Text>
+                          <Row gap="8" vertical="center">
+                            {tag && <Tag size="s">{tag}</Tag>}
+                            {item.link && <SmartLink href={item.link}>{locale === "el" ? "Άρθρο" : "Paper"}</SmartLink>}
+                          </Row>
+                        </Column>
+                      </article>
+                    );
+                  })()
               ))}
             </div>
           </section>
@@ -75,7 +132,7 @@ export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount }) => {
       {previewCount && (
         <Row>
           <Button href="/news" variant="tertiary" size="s" suffixIcon="arrowRight">
-            See all news
+            {text.seeAllNews}
           </Button>
         </Row>
       )}
