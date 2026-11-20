@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { Column, Heading, Text } from "@once-ui-system/core";
+import { Column, Heading, Icon, Text } from "@once-ui-system/core";
 import type { ProjectSlide } from "@/resources/projectSlides";
 import styles from "@/app/work/projects.module.scss";
 import { siteText, type Locale } from "@/resources/i18n";
@@ -76,7 +76,7 @@ export const ProjectsGrid = ({
                 </Link>
               </Heading>
               <Text variant="body-default-s" onBackground="neutral-weak">
-                {project.description}
+                {locale === "el" ? project.descriptionEl ?? project.description : project.description}
               </Text>
               <a
                 className={styles.externalLink}
@@ -85,6 +85,9 @@ export const ProjectsGrid = ({
                 rel="noopener noreferrer"
                 aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
               >
+                {project.kind === "Coding project" && (
+                  <Icon className={styles.githubIcon} name="github" size="s" />
+                )}
                 {text.findOutMore}
                 <span className={styles.externalArrow} aria-hidden="true"> ↗</span>
               </a>

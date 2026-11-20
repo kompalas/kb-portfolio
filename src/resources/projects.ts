@@ -1,3 +1,8 @@
+export type ProjectCitation = {
+  title: string;
+  url: string;
+};
+
 export type Project = {
   id: string;
   title: string;
@@ -7,7 +12,10 @@ export type Project = {
   link: string;
   image: string;
   description: string;
+  descriptionEl: string;
   details: string;
+  detailsEl: string;
+  citation?: ProjectCitation;
 };
 
 export const projects: Project[] = [
@@ -19,8 +27,14 @@ export const projects: Project[] = [
     role: "Team leader, University of Patras (CEID)",
     link: "https://autopnn.github.io",
     image: "/images/projects/autopnn.jpg",
-    description: "Printed electronics can put a classifier on smart packaging, a diagnostic strip or a wearable patch, but the circuits are so large that every gate counts. AutoPNN is a two-year project on designing those classifiers automatically: it shrinks a neural network in software and in hardware together until it fits a printed circuit's area and power budget. I led the team working on it at the University of Patras.",
-    details: "**Automated Printed Neural Network design**: a two-year research project on automating the design of machine-learning classifiers for printed electronics.\n\n### Why it matters\nPrinted electronics produces circuits that are flexible, low-cost and conformable, which suits smart packaging, diagnostic strips and wearable health devices. The trade-off is size: printed features are large, so a circuit can only afford a few thousand gates. Most of these applications are classification tasks, which is where a small, carefully designed neural network fits.\n\n### Approach\n- Hardware-aware neural architecture search\n- Neural minimization at the software level (for example pruning, quantization and weight sharing)\n- Approximate hardware architecture search\n\nTogether these aim to produce the smallest printed classifier that still meets its accuracy target, automatically, and to open-source the framework.\n\n### Work packages\n- WP1: Project management\n- WP2: Printed-friendly neural simplification techniques\n- WP3: Approximate bespoke hardware arithmetic\n- WP4: Modeling (area and accuracy models for fast, high-level operation)\n- WP5: Co-design for approximate printed neural networks\n- WP6: Dissemination and communication\n\n### My role\nTeam leader at the University of Patras (CEID), July 2024 to October 2025.\n- Developed an automated HW/SW framework for co-designing edge AI accelerators and ultra resource-efficient ML models in flexible electronics\n- Trained neural networks with integrated differentiable feature selection and variation-robust training (see the FlexAf project)\n- Supervised several Bachelor and Master theses\n\n### Selected result\nArbitrary-precision printed ternary neural networks: on average 17x smaller in area and 59x lower in power than existing approximate printed neural networks, and the first to run on a printed battery with under 5% accuracy loss, including the cost of the analog-to-digital interface (IEEE Transactions on Circuits and Systems for Artificial Intelligence, 2025).\n\n### Code and funding\nMore repositories are listed on the project website and at github.com/AutoPNN. AutoPNN is funded by the H.F.R.I. call \"Basic research Financing (Horizontal support of all Sciences)\" under the National Recovery and Resilience Plan \"Greece 2.0\", funded by the European Union - NextGenerationEU (project number 17048).",
+    description:
+      "Printed electronics can put a classifier on smart packaging, a diagnostic strip or a wearable patch, but the circuits are so large that every gate counts. AutoPNN is a two-year project on designing those classifiers automatically: it shrinks a neural network in software and in hardware together until it fits a printed circuit's area and power budget. I led the team working on it at the University of Patras.",
+    descriptionEl:
+      "Τα εκτυπωμένα ηλεκτρονικά μπορούν να ενσωματώσουν έναν ταξινομητή σε έξυπνες συσκευασίες, διαγνωστικές ταινίες ή φορετές συσκευές, αλλά τα κυκλώματα είναι τόσο μεγάλα που κάθε λογική πύλη μετράει. Το AutoPNN είναι ένα διετές έργο αυτοματοποιημένου σχεδιασμού αυτών των ταξινομητών: μειώνει από κοινού το νευρωνικό δίκτυο και το υλικό εκτέλεσής του, ώστε να χωράει στην επιφάνεια και το ενεργειακό προϋπολογισμό ενός εκτυπωμένου κυκλώματος. Οδήγησα την ομάδα που εργάστηκε στο Πανεπιστήμιο Πατρών.",
+    details:
+      "AutoPNN combines hardware-aware neural architecture search, software-level minimization and approximate hardware architecture search. The goal is to produce the smallest printed classifier that meets a required accuracy target while remaining practical for an open-source design flow.",
+    detailsEl:
+      "Το AutoPNN συνδυάζει αναζήτηση νευρωνικών αρχιτεκτονικών με επίγνωση υλικού, ελαχιστοποίηση στο επίπεδο λογισμικού και αναζήτηση αρχιτεκτονικών προσεγγιστικού υλικού. Στόχος είναι η παραγωγή του μικρότερου εκτυπωμένου ταξινομητή που διατηρεί την απαιτούμενη ακρίβεια και παραμένει πρακτικός για ανοικτό σχεδιαστικό πλαίσιο.",
   },
   {
     id: "flexaf",
@@ -30,8 +44,18 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/flexaf",
     image: "/images/projects/flexaf.jpg",
-    description: "A wearable health sensor has to decide which measurements are worth their circuit area. FlexAf lets the neural network make that choice while it trains: every input feature gets a learnable gate, and the training objective includes the hardware cost of each feature. The result is a classifier and its feature extraction designed together for flexible, mixed-signal wearables.",
-    details: "**FlexAf** is a framework for **differentiable feature selection** and **hardware-aware neural network training**, designed for mixed-signal, resource-constrained, and flexible hardware platforms.  \nIt integrates **stochastic feature gating**, **cost-aware regularization**, and optional **lottery ticket pruning** to jointly optimize classification accuracy and feature extraction costs.\n\n---\n\n### ð§ Key Features\n\n- ð¬ **Differentiable Feature Selection**  \n  Embedded stochastic gating layer enables end-to-end feature selection during training.\n\n- ð¡ **Cost-Aware Regularization**  \n  Incorporates per-feature hardware area costs into the optimization objective.\n\n- ð§© **Stochastic Gating Layer**  \n  GumbelâSigmoid gates enable gradient-based optimization and interpretable feature importance.\n\n- âï¸ **Feature Pruning**  \n  Automatic pruning via thresholding on learned gate probabilities.\n\n- ð¹ **Lottery Ticket Pruning**  \n  Optional pruning-aware retraining to further reduce model complexity.\n\n- âï¸ **Hardware-Aware Optimization**  \n  Look-Up Table (LUT)-based hardware cost modeling for analog feature extraction.\n\n- ð **End-to-End Pipeline**  \n  Supports flexible, mixed-signal wearables for healthcare at the extreme edge. All MLP designs are **fully evaluated** in hardware using EDA tools (e.g., Synopsys suite).\n\n---\n\n### ð¦ Technologies Used\n\n- Python 3  \n- Tensorflow (for differentiable gating and training)  \n- GumbelâSigmoid distributions for stochastic gating  \n- Conda environment management  \n- YAML-based experiment configuration  \n\n---\n\n### âï¸ Installation\n\nSet up the environment using Conda:\n\n```bash\n# Clone the repository\ngit clone https://github.com/kompalas/flexaf.git\ncd flexaf\n\n# Create and activate the conda environment\nconda env create -f env.yml\nconda activate flexaf\n```\n\n### ð Usage\n\nThe main entry point is `main.py`.\nAll experiment parameters are defined in run/args.yaml, which controls:\n- Training hyperparameters\n- Gating and cost-regularization settings\n- Hardware cost constraints\n- Pruning thresholds\n \nTo run the default basic evaluation, use:\n```bash\n./run/main.sh\n```\nTo run differentiable feature selection optimization, use the following script, which automatically modifies `run/args.yaml`:\n```bash\n./run/gates.sh\n```\nSimilarly, to run lottery ticket pruning and retraining, use:\n```bash\n./run/lottery_ticket.sh\n```\n\n### ð Citation\n\nTo cite this work in bibtex:\n```bibtex\n@inproceedings{Shatta:ICCAD2025:Invited:analogFEx,\n    author    = {Maha Shatta and Konstantinos Balaskas and Paula Carolina Lozano Duarte and Georgios Panagopoulos and Mehdi B. Tahoori and Georgios Zervakis},\n    title     = {Invited Paper: Feature-to-Classifier Co-Design for Mixed-Signal Smart Flexible Wearables for Healthcare at the Extreme Edge},\n    booktitle = {Proceedings of the IEEE/ACM International Conference on Computer-Aided Design (ICCAD)},\n    year      = {2025},\n    month     = oct\n}\n```\n\n### ð Acknowledgment\nThis work is partially supported by:\n- European Research Council (ERC) (Grant No. 101052764)\n- H.F.R.I. âBasic Research Financing (Horizontal support of all Sciences)â under the National Recovery and Resilience Plan âGreece 2.0â (Project No. 17048)",
+    description:
+      "A wearable health sensor has to decide which measurements are worth their circuit area. FlexAf lets the neural network make that choice while it trains: every input feature gets a learnable gate, and the training objective includes the hardware cost of each feature. The result is a classifier and its feature extraction designed together for flexible, mixed-signal wearables.",
+    descriptionEl:
+      "Ένας φορετός αισθητήρας υγείας πρέπει να αποφασίζει ποιες μετρήσεις αξίζουν τον απαιτούμενο χώρο κυκλώματος. Το FlexAf επιτρέπει στο νευρωνικό δίκτυο να κάνει αυτή την επιλογή κατά την εκπαίδευση: κάθε χαρακτηριστικό εισόδου έχει μια εκμαθανομένη πύλη και η συνάρτηση εκπαίδευσης λαμβάνει υπόψη το κόστος υλικού κάθε χαρακτηριστικού. Το αποτέλεσμα είναι ένας ταξινομητής και ένας εξαγωγέας χαρακτηριστικών που σχεδιάζονται μαζί.",
+    details:
+      "FlexAf is a TensorFlow framework for differentiable feature selection and hardware-aware neural-network training. Stochastic feature gates identify important measurements, cost-aware regularization accounts for feature-extraction area, and optional lottery-ticket pruning can further reduce the model.",
+    detailsEl:
+      "Το FlexAf είναι ένα πλαίσιο TensorFlow για διαφορίσιμη επιλογή χαρακτηριστικών και εκπαίδευση νευρωνικών δικτύων με επίγνωση υλικού. Οι στοχαστικές πύλες εντοπίζουν σημαντικές μετρήσεις, η κανονικοποίηση με κόστος υλικού λαμβάνει υπόψη την επιφάνεια εξαγωγής χαρακτηριστικών και η προαιρετική pruning με lottery-ticket προσέγγιση μπορεί να μειώσει περαιτέρω το μοντέλο.",
+    citation: {
+      title: "Feature-to-Classifier Co-Design for Mixed-Signal Smart Flexible Wearables for Healthcare at the Extreme Edge",
+      url: "https://doi.org/10.1109/ICCAD66269.2025.11240680",
+    },
   },
   {
     id: "mannheim-cecas",
@@ -41,8 +65,14 @@ export const projects: Project[] = [
     role: "Research associate, Karlsruhe Institute of Technology",
     link: "https://elektronikforschung.de/projekte/mannheim-cecas",
     image: "/images/projects/mannheim-cecas.jpg",
-    description: "Today's cars rely on many separate control units. MANNHEIM-CeCaS asked what happens if you gather them into one central \"car server\", a supercomputer built to automotive safety and reliability standards. About 30 partners from industry and research worked on it; my part at KIT was the AI side: ML models and hardware accelerators for sensor-side tasks, and a scheduler that decides how neural-network work is split between the car server and an edge chip.",
-    details: "**MANNHEIM-CeCaS** (Central Car Server): a German research project to develop a central computing platform for highly automated vehicles.\n\n### The project\n- Goal: bundle a vehicle's intelligence into one central hardware and software architecture instead of many separate control units, for level 3 to 5 automated driving\n- Built around automotive-qualified high-performance processors in FinFET technology, with Ethernet-based real-time communication\n- Coordinated by Infineon Technologies AG, with about 30 partners including Bosch, Continental, ZF Friedrichshafen, Hella and AVL\n- Runtime: December 2022 to November 2025. Funded by the German Federal Ministry of Research (BMBF, now BMFTR) under the MANNHEIM guideline, with a total budget of roughly 90 million euros, about 46 million of it federal funding\n- A demonstrator integrated in an electric car was presented at the closing event in Munich\n\n### My contribution (KIT)\n- Co-designed an ML hardware accelerator and trained ML models (vision, segmentation, detection) for sensor-side AI tasks\n- Developed an ML scheduling algorithm for task distribution between the car server and an edge SoC\n- Contributed to automotive-grade design feasibility together with partners such as Bosch, Continental and Infineon\n\n### Related code\nThe HeteroAccel project, an automated design flow for heterogeneous multi-DNN accelerators.",
+    description:
+      "Today's cars rely on many separate control units. MANNHEIM-CeCaS asked what happens if you gather them into one central car server, a supercomputer built to automotive safety and reliability standards. About 30 partners worked on the project; my part at KIT was the AI side: ML models and hardware accelerators for sensor-side tasks, and a scheduler that splits neural-network work between the car server and an edge chip.",
+    descriptionEl:
+      "Τα σύγχρονα αυτοκίνητα βασίζονται σε πολλαπλές ξεχωριστές μονάδες ελέγχου. Το MANNHEIM-CeCaS εξετάζει την συγκέντρωση αυτών σε έναν κεντρικό server οχήματος, έναν υπερυπολογιστή που πληροί πρότυπα ασφάλειας και αξιοπιστίας της αυτοκινητοβιομηχανίας. Στο έργο συμμετείχαν περίπου 30 εταίροι. Στο KIT ανέλαβα το AI μέρος: μοντέλα μηχανικής μάθησης, επιταχυντές υλικού για εργασίες αισθητήρα και χρονοπρογραμματισμό μεταξύ του server και ενός edge SoC.",
+    details:
+      "The project pursued a central hardware and software architecture for highly automated driving. My contribution covered sensor-side vision, segmentation and detection models, co-design of an ML accelerator and scheduling of tasks across the central server and an edge SoC.",
+    detailsEl:
+      "Το έργο ανέπτυξε κεντρική αρχιτεκτονική υλικού και λογισμικού για υψηλά αυτοματοποιημένη οδήγηση. Η συνεισφορά μου κάλυψε μοντέλα όρασης, τμηματοποίησης και ανίχνευσης κοντά στους αισθητήρες, συν-σχεδιασμό επιταχυντή μηχανικής μάθησης και κατανομή εργασιών μεταξύ του κεντρικού server και ενός edge SoC.",
   },
   {
     id: "hetero-accel",
@@ -52,8 +82,18 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/hetero-accel",
     image: "/images/projects/hetero-accel.jpg",
-    description: "When a chip has to run several neural networks at once, a single accelerator design rarely suits all of them. HeteroAccel searches for a set of different accelerators and a schedule for a given multi-network workload, using simulated annealing on top of the Timeloop-Accelergy models to minimize the energy-delay product. It ships with a state-of-the-art baseline and a homogeneous design for comparison.",
-    details: "**HeteroAccel** is a framework for **automated design of heterogeneous ASIC accelerators** targeting **multi-DNN inference workloads**.  \nIt integrates **simulated annealing optimization** with **DNN scheduling** to explore heterogeneous accelerator architectures and achieve optimal energy-delay product (EDP).  \nBuilt on the popular **Timeloop-Accelergy** framework (included as a submodule), HeteroAccel delivers accurate metrics for **delay, energy, and area** while automating scheduling and architecture co-optimization.\n\n---\n\n### ð§ Key Features\n\n- ð§ **Simulated Annealing Optimization**  \n  Explores heterogeneous accelerator architectures for multi-DNN workloads.\n\n- ðï¸ **Timeloop-Accelergy Integration**  \n  Uses Timeloop-Accelergy for accurate hardware modeling and energy, delay, and area estimation.\n\n- ð **DNN Scheduling-Aware Design**  \n  Jointly optimizes accelerator architectures and schedules DNN workloads for maximum efficiency.\n\n- ð¯ **Energy-Delay Product Optimization**  \n  Targets EDP as the primary optimization metric for accelerator performance.\n\n- ð§© **Baselines and Comparisons**  \n  Includes SOTA HDA-Q method and homogeneous multi-accelerator baseline for comparison.\n\n- ð³ **Dockerized Setup**  \n  Fully reproducible Docker environment for building and running experiments.\n\n---\n\n### ð¦ Technologies Used\n\n- Python 3  \n- Simulated Annealing (SA) optimization  \n- Timeloop-Accelergy (submodule) for accelerator simulation  \n- YAML-based workload and argument configuration  \n- Docker for environment setup and reproducibility  \n\n---\n\n### âï¸ Installation\n\nSet up the Docker-based environment:\n\n```bash\n# Build the Docker image\n./setup/build_docker.sh\n\n# Launch the Docker container\n./setup/run_docker.sh\n```\n\n### ð Usage\n\nRun simulated annealing optimization:\n\n```bash\n./run/main.sh\n```\nRun SOTA HDA-Q comparison:\n```bash\n./run/sota.sh\n```\nEvaluate homogeneous multi-accelerator baseline:\n```bash\n./run/baseline.sh\n```\nConfiguration files:\n- `main.py` â Main entry point for running optimization\n- `run/args.yaml` â Defines all arguments and optimizer parameters\n- `run/workloads.yaml` â Defines multi-DNN workloads\n\n### ð Citation\n\nIf you use this repository, please cite:\n```bibtex\n@article{balaskas2024heterogeneous,\n  title={Heterogeneous Accelerator Design for Multi-DNN Workloads via Heuristic Optimization},\n  author={Balaskas, Konstantinos and Khdr, Heba and Sikal, Mohammed Bakr and Kre{\\ss}, Fabian and Siozios, Kostas and Becker, J{\\\"u}rgen and Henkel, J{\\\"o}rg},\n  journal={IEEE Embedded Systems Letters},\n  volume={16},\n  number={4},\n  pages={317--320},\n  year={2024},\n  publisher={IEEE}\n}\n```\nFor related work (HDA-Q method):\n```bibtex\n@article{spantidi2022targeting,\n  title={Targeting dnn inference via efficient utilization of heterogeneous precision dnn accelerators},\n  author={Spantidi, Ourania and Zervakis, Georgios and Alsalamin, Sami and Roman-Ballesteros, Isai and Henkel, Joerg and Amrouch, Hussam and Anagnostopoulos, Iraklis},\n  journal={IEEE Transactions on Emerging Topics in Computing},\n  volume={11},\n  number={1},\n  pages={112--125},\n  year={2022},\n  publisher={IEEE}\n}\n```",
+    description:
+      "When a chip has to run several neural networks at once, a single accelerator design rarely suits all of them. HeteroAccel searches for a set of different accelerators and a schedule for a given multi-network workload, using simulated annealing on top of Timeloop-Accelergy models to minimize energy-delay product.",
+    descriptionEl:
+      "Όταν ένα τσιπ πρέπει να εκτελεί πολλά νευρωνικά δίκτυα ταυτόχρονα, μία μόνο αρχιτεκτονική επιταχυντή σπάνια είναι κατάλληλη για όλα. Το HeteroAccel αναζητά ένα σύνολο διαφορετικών επιταχυντών και ένα χρονοπρόγραμμα για συγκεκριμένο φόρτο πολλών δικτύων, χρησιμοποιώντας simulated annealing πάνω σε μοντέλα Timeloop-Accelergy για ελαχιστοποίηση του γινόμενου ενέργειας-καθυστέρησης.",
+    details:
+      "The framework explores accelerator architectures and DNN schedules together, then compares heterogeneous designs with homogeneous and state-of-the-art baselines. It uses cycle-accurate modeling for delay, energy and area estimates.",
+    detailsEl:
+      "Το πλαίσιο εξετάζει μαζί τις αρχιτεκτονικές επιταχυντών και τα χρονοπρογράμματα των νευρωνικών δικτύων και συγκρίνει ετερογενείς σχεδιασμούς με ομογενείς και σύγχρονες μεθόδους αναφοράς. Για εκτιμήσεις καθυστέρησης, ενέργειας και επιφάνειας χρησιμοποιεί μοντελοποίηση ακριβή ανά κύκλο.",
+    citation: {
+      title: "Heterogeneous Accelerator Design for Multi-DNN Workloads via Heuristic Optimization",
+      url: "https://doi.org/10.1109/LES.2024.3443628",
+    },
   },
   {
     id: "accross",
@@ -63,8 +103,14 @@ export const projects: Project[] = [
     role: "Research associate, Karlsruhe Institute of Technology",
     link: "https://gepris.dfg.de/gepris/projekt/428566201",
     image: "/images/projects/accross.jpg",
-    description: "Chips are designed with generous safety margins so that they keep working in the worst case, and those margins cost energy and speed. ACCROSS, a German Research Foundation (DFG) project, studies approximate computing across the whole system stack, from applications down to circuits, including what happens when design margins are reduced and how to measure the resulting error. At KIT I worked on reduced safety margins in circuit design and on abstract models of approximate computing for machine learning.",
-    details: "**ACCROSS: Approximate Computing aCROss the System Stack**, a research grant of the German Research Foundation (DFG, project number 428566201), running from 2020 to 2026.\n\n### The idea\nApproximate computing trades precision against power, energy, storage, bandwidth or performance, and can be applied to hardware, software and algorithms. ACCROSS takes a cross-layer view: it analyses and optimizes across the system stack, from the application down to the hardware.\n\n### Goals\n- Systematically evaluate the effect of removing design margins, which leads to approximate behavior and better efficiency\n- Analyse applications from different problem classes as enablers for mainstream approximate computing\n- Develop new error metrics and lightweight runtime monitoring of accuracy\n- Provide models linking hardware and software, so designers can quantify the error and efficiency trade-off\n\n### My contribution (KIT)\n- Investigated reduced safety margins in circuit design\n- Developed abstract models for approximate computing in ML\n\n### Related code\nAxAgingAwareNetlists, approximate circuits generated to cope with circuit aging.\n\n### Project team\nPrincipal applicants: Hussam Amrouch, JÃ¶rg Henkel and Hans-Joachim Wunderlich.",
+    description:
+      "Chips are designed with generous safety margins so that they keep working in the worst case, and those margins cost energy and speed. ACCROSS studies approximate computing across the whole system stack, from applications down to circuits, including reduced design margins and ways to measure the resulting error.",
+    descriptionEl:
+      "Τα τσιπ σχεδιάζονται με σημαντικά περιθώρια ασφάλειας ώστε να λειτουργούν στη χειρότερη περίπτωση και αυτά τα περιθώρια αυξάνουν την ενέργεια και μειώνουν την ταχύτητα. Το ACCROSS μελετά την προσεγγιστική υπολογιστική σε όλο το σύστημα, από τις εφαρμογές μέχρι τα κυκλώματα, συμπεριλαμβανομένων των μειωμένων περιθωρίων σχεδιασμού και των μεθόδων μέτρησης του αντίστοιχου σφάλματος.",
+    details:
+      "The DFG project took a cross-layer view of approximate computing. It developed error metrics, lightweight monitoring and models linking software and hardware, allowing designers to quantify the trade-off between efficiency and accuracy.",
+    detailsEl:
+      "Το έργο του DFG υιοθέτησε διαστρωματική προσέγγιση στην προσεγγιστική υπολογιστική. Ανέπτυξε μετρικές σφάλματος, ελαφρύς μηχανισμούς παρακολούθησης και μοντέλα που συνδέουν λογισμικό και υλικό, δίνοντας τη δυνατότητα ποσοτικής αξιολόγησης του ανταγωνισμού απόδοσης και ακρίβειας.",
   },
   {
     id: "ax-aging-aware-netlists",
@@ -74,8 +120,18 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/AxAgingAwareNetlists",
     image: "/images/projects/ax-aging-aware-netlists.jpg",
-    description: "Transistors age, and designers normally cover that with extra timing margin that costs energy from day one. This repository holds approximate circuits evolved with a genetic algorithm to absorb aging instead. It includes the original baseline netlists, the raw approximate ones and the synthesized versions, so the results can be reproduced.",
-    details: "This repository contains **approximate hardware netlists** generated using a **genetic algorithm (GA)-based aging-aware optimization** approach.  \nThe netlists are organized to provide insight into how **circuit approximation** can mitigate **circuit aging effects** while optimizing energy and performance.\n\n---\n\n### ð§ Repository Structure\n\n- `baseline/` â Original baseline circuit netlists  \n- `ax_pre_synthesis/` â Approximate netlists directly generated by the GA optimization (before synthesis)  \n- `ax_post_synthesis/` â Fully synthesized approximate netlists after optimization  \n\n---\n\n### ð¦ Highlights\n\n- Aging-aware optimization to improve circuit lifetime  \n- Approximate circuits generated via genetic algorithms  \n- Includes both **raw** and **synthesized** netlists for reproducibility  \n- Complements the methodology from the cited paper below  \n\n---\n\n### ð Citation\n\nIf you use these netlists, please cite:\n\n```bibtex\n@article{balaskas2021automated,\n  title={Automated design approximation to overcome circuit aging},\n  author={Balaskas, Konstantinos and Zervakis, Georgios and Amrouch, Hussam and Henkel, J{\\\"o}rg and Siozios, Kostas},\n  journal={IEEE Transactions on Circuits and Systems I: Regular Papers},\n  volume={68},\n  number={11},\n  pages={4710--4721},\n  year={2021},\n  publisher={IEEE}\n}\n```",
+    description:
+      "Transistors age, and designers normally cover that with extra timing margin that costs energy from day one. This repository contains approximate circuit netlists evolved with a genetic algorithm to absorb aging while preserving useful circuit behavior.",
+    descriptionEl:
+      "Οι τρανζίστορ γερνούν και οι σχεδιαστές συνήθως καλύπτουν αυτή την επίδραση με επιπλέον περιθώριο χρονισμού που αυξάνει την ενέργεια από την αρχή. Αυτό το αποθετήριο περιέχει προσεγγιστικά netlists κυκλωμάτων που παράγονται με γενετικό αλγόριθμο ώστε να αντιμετωπίζουν τη γήρανση διατηρώντας χρήσιμη συμπεριφορά.",
+    details:
+      "The repository separates baseline netlists, pre-synthesis approximate netlists and post-synthesis approximate netlists. It provides reproducible assets for studying aging-aware approximation of arithmetic and image-processing circuits.",
+    detailsEl:
+      "Το αποθετήριο διαχωρίζει τα αρχικά netlists αναφοράς, τα προσεγγιστικά netlists πριν τη σύνθεση και τα προσεγγιστικά netlists μετά τη σύνθεση. Παρέχει επαναλήψιμα δεδομένα για τη μελέτη προσεγγιστικής υπολογιστικής με επίγνωση γήρανσης σε αριθμητικά κυκλώματα και επεξεργασία εικόνας.",
+    citation: {
+      title: "Automated Design Approximation to Overcome Circuit Aging",
+      url: "https://doi.org/10.1109/TCSI.2021.3106149",
+    },
   },
   {
     id: "printed-trees",
@@ -85,8 +141,18 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/PrintedTrees",
     image: "/images/projects/printed-trees.jpg",
-    description: "A decision tree is about the simplest classifier you can build in hardware, a chain of comparisons, but in printed electronics every comparator counts. PrintedTrees uses a multi-objective genetic algorithm (NSGA-II) to adjust a tree's thresholds so it needs fewer comparators while keeping its accuracy, then generates synthesizable Verilog for each optimized tree using a printed-electronics (EGFET) design kit.",
-    details: "**PrintedTrees** is a framework for **hardware-aware optimization of Decision Tree (DT) classifiers** targeting **tiny printed circuits**.  \nIt uses a **genetic algorithm with NSGA-II** to jointly minimize **comparator count (area)** and maintain classification accuracy.  \nThe framework integrates the **EGFET PDK** for synthesis and full hardware evaluation of approximate DTs.\n\n---\n\n### ð§ Key Features\n\n- ð³ **Approximate Decision Trees**  \n  Optimizes DT thresholds for hardware-friendly, low-cost implementations.\n\n- âï¸ **Multi-Objective Genetic Optimization**  \n  Uses NSGA-II to explore accuracy vs. comparator/area trade-offs.\n\n- ð¨ï¸ **Printed Electronics Integration**  \n  Leverages EGFET PDK and hardware libraries for realistic evaluation.\n\n- ð ï¸ **RTL-Level Hardware Designs**  \n  Auto-generates synthesizable Verilog stored in `rtl/` for each optimized tree.\n\n---\n\n### ð¦ Technologies Used\n\n- Python 3  \n- NSGA-II (evolutionary optimization)  \n- EGFET PDK and printed electronics libraries  \n- Verilog RTL design and evaluation  \n- Virtual environment (`venv`) for reproducible setup  \n\n---\n\n### âï¸ Installation\n\nCreate and activate a Python virtual environment, then install dependencies:\n\n```bash\n# Clone the repository\ngit clone https://github.com/kompalas/printedtrees.git\ncd printedtrees\n\n# Create and activate virtual environment\npython3 -m venv venv\nsource venv/bin/activate  # For Linux/Mac\n# On Windows: venv\\Scripts\\activate\n\n# Install dependencies\npip install -r requirements.txt\npython setup.py install\n```\n\n### ð Usage\n\nRun optimization with command-line arguments:\n```bash\npython main.py -h\n```\nOptimized RTL implementations are saved in the rtl/ folder for synthesis and evaluation.\n\n### ð Citation\nIf you use this work, please cite:\n```bibtex\n@inproceedings{balaskas2022approximate,\n  title={Approximate decision trees for machine learning classification on tiny printed circuits},\n  author={Balaskas, Konstantinos and Zervakis, Georgios and Siozios, Kostas and Tahoori, Mehdi B and Henkel, J{\\\"o}rg},\n  booktitle={2022 23rd International Symposium on Quality Electronic Design (ISQED)},\n  pages={1--6},\n  year={2022},\n  organization={IEEE}\n}\n```",
+    description:
+      "A decision tree is about the simplest classifier you can build in hardware, a chain of comparisons, but in printed electronics every comparator counts. PrintedTrees uses NSGA-II to tune tree thresholds, reduce comparator count and generate synthesizable Verilog.",
+    descriptionEl:
+      "Το δέντρο αποφάσεων είναι από τους απλούστερους ταξινομητές υλικού, μια ακολουθία συγκρίσεων, αλλά στα εκτυπωμένα ηλεκτρονικά κάθε συγκριτής μετράει. Το PrintedTrees χρησιμοποιεί NSGA-II για ρύθμιση των ορίων του δέντρου, μείωση του αριθμού συγκριτών και παραγωγή συνθέσιμου Verilog.",
+    details:
+      "The framework evaluates the trade-off between classification accuracy and the number of comparators, an important proxy for circuit area. It uses an EGFET printed-electronics design kit and produces Verilog implementations for the selected trees.",
+    detailsEl:
+      "Το πλαίσιο αξιολογεί την αντιστάθμιση μεταξύ ακρίβειας ταξινόμησης και αριθμού συγκριτών, ενός σημαντικού δείκτη επιφάνειας κυκλώματος. Χρησιμοποιεί πακέτο σχεδιασμού εκτυπωμένης ηλεκτρονικής EGFET και παράγει υλοποιήσεις Verilog για τα επιλεγμένα δέντρα.",
+    citation: {
+      title: "Approximate Decision Trees for Machine Learning Classification on Tiny Printed Circuits",
+      url: "https://doi.org/10.1109/ISQED54688.2022.9806213",
+    },
   },
   {
     id: "axcarbon",
@@ -96,8 +162,18 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/axcarbon",
     image: "/images/projects/axcarbon.jpg",
-    description: "AxCarbon evolves approximate versions of multipliers, adders and multiply-accumulate units by pruning gates from their netlists with a genetic algorithm. It covers integer and floating-point formats (FP32, FP16, bfloat16) and evaluates power, area, performance and accuracy for each candidate. It was built for work on carbon-aware DNN accelerators.",
-    details: "**AxCarbon** is a framework for **genetic algorithm-driven approximate circuit design** targeting arithmetic and logic circuits, such as multipliers, adders, and MAC units.  \nIt supports **floating-point (FP32, FP16, bfloat16)** and **integer arithmetic** and provides **full hardware evaluation** of approximate circuits.  \nThe framework prunes gates from netlists to generate approximate variants of exact circuits and evaluates their trade-offs in accuracy, power, area, and energy.\n\n---\n\n### ð§ Key Features\n\n- ð§¬ **Genetic Algorithm Optimization**  \n  Evolves approximate circuits by pruning gates and exploring the design space.\n\n- â **Arithmetic Circuit Support**  \n  Includes multipliers, adders, MAC units, and additional circuit types.\n\n- ð¢ **Multi-Precision Arithmetic**  \n  Supports FP32, FP16, bfloat16, and integer operations.\n\n- ð ï¸ **Full Hardware Evaluation**  \n  Analyzes power, performance, and area (PPA) metrics for all designs.\n\n- ðï¸ **Baseline Integration**  \n  Supports EvoApprox circuits as baselines for comparison and approximation.\n\n- ð§© **Utility Scripts**  \n  Simplifies circuit setup, evaluation, and exploration.\n\n---\n\n### ð¦ Technologies Used\n\n- Python 3  \n- Genetic Algorithms for circuit optimization  \n- Netlist-based circuit representation  \n- Hardware evaluation toolchain integration  \n- EvoApprox circuit dataset support  \n- Conda for environment management  \n- YAML-based configuration  \n\n---\n\n### âï¸ Installation\n\nSet up the environment using Conda:\n\n```bash\n# Clone the repository\ngit clone https://github.com/kompalas/axcarbon.git\ncd axcarbon\n\n# Create and activate the conda environment\nconda env create -f env.yml\nconda activate axcarbon\n```\n\n### ð Usage\n\nRun genetic algorithm optimization:\n```bash\n./run/ga.sh\n```\nRun full evaluation of GA-discovered circuits:\n```bash\n./run/get_results.sh\n```\nSet up new circuits:\n```bash\n./run/setup_circuit.sh\n```\nGather and approximate EvoApprox baselines:\n```bash\n./run/gather_evoapprox.sh\n```\n\n### ð Citation\nIf you use this work, please cite:\n```bibtex\n@inproceedings{panteleaki2025late,\n  title={Late breaking results: Leveraging approximate computing for carbon-aware dnn accelerators},\n  author={Panteleaki, Aikaterini Maria and Balaskas, Konstantinos and Zervakis, Georgios and Amrouch, Hussam and Anagnostopoulos, Iraklis},\n  booktitle={2025 Design, Automation \\& Test in Europe Conference (DATE)},\n  pages={1--2},\n  year={2025},\n  organization={IEEE}\n}\n```",
+    description:
+      "AxCarbon evolves approximate versions of multipliers, adders and multiply-accumulate units by pruning gates from their netlists with a genetic algorithm. It covers integer and floating-point formats and evaluates power, area, performance and accuracy.",
+    descriptionEl:
+      "Το AxCarbon παράγει προσεγγιστικές εκδόσεις πολλαπλασιαστών, αθροιστών και μονάδων πολλαπλασιασμού-συσσώρευσης αφαιρώντας πύλες από τα netlists με γενετικό αλγόριθμο. Καλύπτει ακέραιες και κινητής-υποδιαστολής μορφές και αξιολογεί ισχύ, επιφάνεια, απόδοση και ακρίβεια.",
+    details:
+      "The framework supports FP32, FP16 and bfloat16 arithmetic as well as integer circuits. It provides a repeatable flow for generating approximate candidates and comparing their power, area, delay and accuracy trade-offs.",
+    detailsEl:
+      "Το πλαίσιο υποστηρίζει αριθμητική FP32, FP16 και bfloat16 καθώς και ακέραια κυκλώματα. Παρέχει επαναλήψιμη ροή παραγωγής προσεγγιστικών υποψηφίων και σύγκρισης της ισχύος, επιφάνειας, καθυστέρησης και ακρίβειάς τους.",
+    citation: {
+      title: "Leveraging Approximate Computing for Carbon-Aware DNN Accelerators",
+      url: "https://doi.org/10.23919/DATE64628.2025.10993191",
+    },
   },
   {
     id: "floating-point-mac",
@@ -107,8 +183,14 @@ export const projects: Project[] = [
     role: "Author",
     link: "https://github.com/kompalas/floating-point-MAC",
     image: "/images/projects/floating-point-mac.jpg",
-    description: "A floating-point multiply-accumulate unit in Verilog in which the most expensive part, the mantissa multiplication, can be swapped for an approximate multiplier (MBM or Mitchell's logarithmic multiplier). The repository contains the HDL, the synthesized netlists, the scripts that measure area, power and delay, and the collected results.",
-    details: "This repository contains the **HDL implementation, hardware evaluation scripts, and results** for a **floating-point multiply-accumulate (MAC) unit**.  \nThe MAC supports **approximate mantissa multiplication** using either **MBM** or **Mitchell** multipliers, enabling energy- and area-efficient floating-point arithmetic for hardware accelerators.\n\n---\n\n### ð§ Repository Structure\n\n- `hdl/` â Verilog source code of the floating-point MAC unit  \n- `netlists/` â Synthesized netlists for hardware evaluation  \n- `results/` â Collected measurements (area, power, delay)  \n- `scripts/` â Automation scripts for synthesis and evaluation  \n- `run/` â Scripts to evaluate mantissa multipliers or the full MAC design  \n\n---\n\n### ð¦ Features\n\n- Floating-point MAC unit for hardware accelerators  \n- Support for **approximate mantissa multipliers**:  \n  - **MBM (Multi-Bit Multiplier)**  \n  - **Mitchellâs Logarithmic Multiplier**  \n- Automated evaluation flow for both multipliers and the entire MAC  \n- Includes full synthesis results and reference hardware metrics  \n\n---\n\n### âï¸ Usage\n\nTo run automated hardware evaluation:\n\n```bash\n# Evaluate mantissa multipliers\n./run/approx_mantissa_mult_energy.sh\n\n# Evaluate the FP multiplier\n./run/approx_fpmult_energy.sh\n\n# Evaluate the full MAC unit\n./run/approx_mac_energy.sh\n```\nAll results are stored in the `results/` directory for reference and reproducibility.",
+    description:
+      "A floating-point multiply-accumulate unit in Verilog where the mantissa multiplication can be replaced with an approximate multiplier. The repository contains the HDL, synthesized netlists, evaluation scripts and collected hardware results.",
+    descriptionEl:
+      "Μια μονάδα πολλαπλασιασμού-συσσώρευσης κινητής υποδιαστολής σε Verilog, όπου ο πολλαπλασιασμός mantissa μπορεί να αντικατασταθεί από προσεγγιστικό πολλαπλασιαστή. Το αποθετήριο περιέχει HDL, συνθεμένα netlists, scripts αξιολόγησης και συγκεντρωμένα αποτελέσματα υλικού.",
+    details:
+      "The implementation compares MBM and Mitchell logarithmic mantissa multipliers across full MAC configurations. It includes synthesis-ready HDL and evaluation assets for area, power and delay.",
+    detailsEl:
+      "Η υλοποίηση συγκρίνει τους προσεγγιστικούς πολλαπλασιαστές mantissa MBM και Mitchell σε πλήρεις διαμορφώσεις MAC. Περιλαμβάνει HDL έτοιμο για σύνθεση και στοιχεία αξιολόγησης επιφάνειας, ισχύος και καθυστέρησης.",
   },
   {
     id: "smartbeeing",
@@ -118,8 +200,14 @@ export const projects: Project[] = [
     role: "Junior researcher, Aristotle University of Thessaloniki",
     link: "https://smartbeeing.web.auth.gr/",
     image: "/images/projects/smartbeeing.jpg",
-    description: "A beehive's health is hard to judge from the outside. SMARTBEEing puts low-cost electronics inside the hive to listen to the colony and track conditions such as temperature and weight, so that problems can be flagged early. My part was the signal processing: a DSP algorithm for the hive's sound, designed to run on an embedded co-processor.",
-    details: "**SMARTBEEing: Bee population health, wellbeing and yield improvement through novel monitoring technologies.**\n\n### The project\nA system for early warning and for avoiding stress factors tied to the bees' social life and to the quality of their products. It combines low-cost electronic equipment installed in hives with outcome models and supporting software, aiming at timely notifications and corrective actions by beekeepers. The system is evaluated by a group of beekeepers under the supervision of the Laboratory of Apiculture-Sericulture and the School of Physics at AUTH.\n\n### Partners\n- Electronics Laboratory, Physics Department, Aristotle University of Thessaloniki\n- Sericulture and Apiculture Laboratory, School of Agriculture, AUTH\n- EMNIA3, which prepares the device for mass production\n\n### My contribution\nDeveloped a DSP algorithm for auditory signals on embedded co-processors.\n\n### Funding\nCo-financed by the European Regional Development Fund of the European Union and Greek national funds through the Operational Programme Competitiveness, Entrepreneurship and Innovation, call RESEARCH - CREATE - INNOVATE (project code T2EDK-01681).",
+    description:
+      "A beehive's health is difficult to judge from the outside. SMARTBEEing combines low-cost electronics inside hives with temperature, weight and audio monitoring so problems can be identified early. My contribution was a DSP algorithm for hive sound running on an embedded co-processor.",
+    descriptionEl:
+      "Η υγεία μιας κυψέλης είναι δύσκολο να αξιολογηθεί από έξω. Το SMARTBEEing συνδυάζει οικονομικά ηλεκτρονικά μέσα σε κυψέλες με παρακολούθηση θερμοκρασίας, βάρους και ήχου ώστε τα προβλήματα να εντοπίζονται νωρίς. Η συνεισφορά μου ήταν ένας αλγόριθμος DSP για τον ήχο της κυψέλης σε ενσωματωμένο συνεπεξεργαστή.",
+    details:
+      "The project brought hive electronics, acoustic processing and beekeeper notifications together to identify stress factors and support timely interventions. The system was evaluated with beekeepers under the supervision of AUTH.",
+    detailsEl:
+      "Το έργο συνδύασε ηλεκτρονικά κυψέλης, ακουστική επεξεργασία και ειδοποιήσεις μελισσοκόμων για την αναγνώριση παραγόντων στρες και την έγκαιρη παρέμβαση. Το σύστημα αξιολογήθηκε μαζί με μελισσοκόμους υπό την επίβλεψη του ΑΠΘ.",
   },
   {
     id: "ice",
@@ -129,8 +217,14 @@ export const projects: Project[] = [
     role: "Junior researcher, Aristotle University of Thessaloniki",
     link: "https://ice.web.auth.gr/",
     image: "/images/projects/ice.jpg",
-    description: "ICE is a transparent touch window that adds augmented-reality video, 360-degree footage and audio to an exhibit placed behind it, together with a platform for managing the content. It was piloted on the cultural heritage of Eastern Macedonia and Thrace, and a companion IoT system tracks visitor flow indoors. I trained neural networks for the AR applications and worked on the specification analysis.",
-    details: "**ICE (Innovative Cultural Experience)**: development of an innovative augmented-reality system for the promotion of cultural heritage.\n\n### The system\n- An advanced implementation of a transparent multi-touch window: exhibits placed in it can show extra information as augmented reality, in the form of video (standard or 360 degrees) and audio\n- Cognitively neutral, so it can present anything from museum exhibits to local customs\n- Interoperable with the XENAGOS content and knowledge management platform\n- Pilots in culture, education and commercial or tourist applications, including the Ottoman baths (hammams) of Eastern Macedonia and Thrace\n- A low-cost IoT platform for real-time, anonymous tracking of visitor flow in museums\n\n### Objectives\n1. Standardization of digital material\n2. Combination of augmented-reality recording and projection sensors\n3. A thematically neutral product for displaying exhibits\n4. A platform for collecting and managing material\n5. Interoperability with the XENAGOS platform\n\n### My contribution\nTrained neural networks for AR applications and developed the specification analysis.\n\n### Funding and duration\nOctober 2020 to October 2023. Co-financed by the European Regional Development Fund and Greek national funds, call RESEARCH - CREATE - INNOVATE (project code T2EDK-02564).",
+    description:
+      "ICE combines a transparent touch window with augmented-reality video, 360-degree footage and audio for cultural exhibits. A companion IoT system can also measure visitor flow. I worked on neural networks for the AR applications and specification analysis.",
+    descriptionEl:
+      "Το ICE συνδυάζει ένα διαφανές παράθυρο αφής με βίντεο επαυξημένης πραγματικότητας, 360° υλικό και ήχο σε πολιτιστικά εκθέματα. Συμπληρωματικό σύστημα IoT μετρά τη ροή επισκεπτών. Εργάστηκα σε νευρωνικά δίκτυα για τις εφαρμογές AR και στην ανάλυση προδιαγραφών.",
+    details:
+      "The prototype was piloted in the cultural heritage context of Eastern Macedonia and Thrace, combining interactive presentation with visitor analytics and a central content-management workflow.",
+    detailsEl:
+      "Το πρωτότυπο δοκιμάστηκε στην πολιτιστική κληρονομιά της Ανατολικής Μακεδονίας και Θράκης, συνδυάζοντας διαδραστική παρουσίαση, αναλύσεις επισκεψιμότητας και κεντρική διαχείριση περιεχομένου.",
   },
   {
     id: "safeschools",
@@ -140,9 +234,15 @@ export const projects: Project[] = [
     role: "Junior researcher, Aristotle University of Thessaloniki",
     link: "https://safeschools.web.auth.gr/",
     image: "/images/projects/safeschools.jpg",
-    description: "SafeSchools is an earthquake early-warning system for school buildings. It warns schools a few seconds before strong shaking arrives and estimates, in real time, how much damage a specific building might suffer given its age, structure and site. It was piloted in three schools in Thessaloniki. I developed the DSP-based data collection and preprocessing algorithms.",
-    details: "**SafeSchools**: an innovative monitoring and early-warning system for the protection of schools and critical buildings against earthquakes and other natural disasters.\n\n### The system\n- A regional, network-based early-warning and real-time risk-assessment system for school buildings\n- Combines a calibrated earthquake early-warning system with building-specific fragility curves, so it can estimate likely damage as well as warn\n- Instrumented with commercial accelerometric stations and low-cost MEMS sensors developed in-house\n- Piloted in three school buildings in Thessaloniki, Greece; the approach was checked against 3D physics-based simulations of the Mw 6.5 Thessaloniki earthquake of 1978\n\n### My contribution\nDeveloped DSP-based data collection and preprocessing algorithms for the earthquake protection system.\n\n### Project lead\nProf. Kyriazis Pitilakis (Aristotle University of Thessaloniki).",
-  }
+    description:
+      "SafeSchools is an earthquake early-warning system for school buildings. It warns schools shortly before strong shaking arrives and estimates damage risk from building age, structure and site conditions. I developed its DSP-based data collection and preprocessing algorithms.",
+    descriptionEl:
+      "Το SafeSchools είναι σύστημα έγκαιρης προειδοποίησης σεισμού για σχολικά κτίρια. Προειδοποιεί σύντομα πριν την έντονη κίνηση και εκτιμά τον κίνδυνο ζημιάς με βάση την ηλικία, την κατασκευή και τις εδαφικές συνθήκες του κτιρίου. Ανέπτυξα τους αλγόριθμους DSP συλλογής και προεπεξεργασίας δεδομένων.",
+    details:
+      "The system combined real-time sensor data, building characteristics and rapid damage estimation and was piloted in three Thessaloniki schools.",
+    detailsEl:
+      "Το σύστημα συνδύασε δεδομένα αισθητήρων σε πραγματικό χρόνο, χαρακτηριστικά κτιρίου και γρήγορη εκτίμηση ζημιάς και δοκιμάστηκε σε τρία σχολεία της Θεσσαλονίκης.",
+  },
 ];
 
 export function getProjects(): Project[] {

@@ -5,7 +5,6 @@ import { getProjectSlides } from "@/resources/projectSlides";
 import { getSiteLocale } from "@/utils/language";
 import { createPageMetadata } from "@/utils/metadata";
 import { ProjectSlideshow as ProjectSlideshowView } from "@/components/ProjectSlideshow";
-import { CustomMDX } from "@/components/mdx";
 
 export function generateStaticParams() {
   return getProjectSlides().map((project) => ({ id: project.id }));
@@ -50,11 +49,6 @@ export default async function ProjectSlideshow({
         projects={projects}
         currentId={id}
         locale={locale}
-        details={
-          <div className="project-markdown-details">
-            <CustomMDX source={project.details} />
-          </div>
-        }
       />
     </>
   );

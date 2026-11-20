@@ -120,6 +120,44 @@
   text-align: left;
 }
 
+.sectionLabel {
+  margin: 32px 0 12px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.description {
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.detailText {
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: left;
+  line-height: 1.75;
+  font-weight: 400;
+  white-space: normal;
+}
+
+.citation {
+  max-width: 44rem;
+  margin: 20px auto 0;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.citationLink {
+  color: var(--brand-on-background-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  line-height: 1.55;
+}
+
 .titleHeader {
   position: relative;
   width: 100%;
@@ -220,6 +258,11 @@
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.githubIcon {
+  margin-right: 8px;
+  vertical-align: -0.12em;
 }
 
 .live {

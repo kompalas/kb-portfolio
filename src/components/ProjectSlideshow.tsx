@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Column, Heading, Tag, Text } from "@once-ui-system/core";
+import { Column, Heading, Icon, Tag, Text } from "@once-ui-system/core";
 import type { ProjectSlide } from "@/resources/projectSlides";
 import type { Locale } from "@/resources/i18n";
 import { siteText } from "@/resources/i18n";
@@ -13,12 +13,10 @@ export function ProjectSlideshow({
   projects,
   currentId,
   locale,
-  details,
 }: {
   projects: ProjectSlide[];
   currentId: string;
   locale: Locale;
-  details: ReactNode;
 }) {
   const router = useRouter();
   const text = siteText[locale];
@@ -61,6 +59,9 @@ export function ProjectSlideshow({
   if (!project) return null;
   const previous = projects[(currentIndex - 1 + projects.length) % projects.length];
   const next = projects[(currentIndex + 1) % projects.length];
+  const isGreek = locale === "el";
+  const description = isGreek ? project.descriptionEl ?? project.description : project.description;
+  const details = isGreek ? project.detailsEl ?? project.details : project.details;
 
   return (
     <Column className={styles.page} maxWidth="l" fillWidth gap="m" paddingY="16">
@@ -157,16 +158,34 @@ export function ProjectSlideshow({
         <Text variant="body-default-xs" onBackground="neutral-weak" align="center">
           {project.role}
         </Text>
-        <Heading as="h2" variant="heading-strong-l">
+        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-l" align="center">
           {text.description}
         </Heading>
-        <Text className={styles.description} variant="body-default-m" onBackground="neutral-weak">
-          {project.description}
+        <Text className={styles.description} variant="heading-strong-m" align="center">
+          {description}
         </Text>
-        <Heading as="h2" variant="heading-strong-l">
+        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-l" align="center">
           {text.details}
         </Heading>
-        {details}
+        <Text className={styles.detailText} variant="body-default-l" onBackground="neutral-weak">
+          {details}
+        </Text>
+        {project.citation && (
+          <div className={styles.citation}>
+            <Text variant="body-default-s" weight="strong">{text.citation}</Text>
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              {text.citePrompt}
+            </Text>
+            <a
+              className={styles.citationLink}
+              href={project.citation.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {project.citation.title} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        )}
         <a
           className={styles.externalLink}
           href={project.link}
@@ -174,6 +193,9 @@ export function ProjectSlideshow({
           rel="noopener noreferrer"
           aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
         >
+          {project.kind === "Coding project" && (
+            <Icon className={styles.githubIcon} name="github" size="s" />
+          )}
           {text.findOutMore}
           <span aria-hidden="true"> ↗</span>
         </a>
