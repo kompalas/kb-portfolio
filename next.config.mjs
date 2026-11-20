@@ -8,6 +8,20 @@ const withMDX = mdx({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   devIndicators: false,
+  async redirects() {
+    return [
+      {
+        source: "/work",
+        destination: "/projects",
+        permanent: true,
+      },
+      {
+        source: "/work/:path*",
+        destination: "/projects",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     agentUpgrade: "security",
   },

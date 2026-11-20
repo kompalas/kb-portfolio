@@ -7,6 +7,17 @@
   padding-left: 4px;
 }
 
+.backLink {
+  color: var(--brand-on-background-strong);
+  text-decoration: none;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .stage {
   position: relative;
   display: grid;
@@ -18,6 +29,25 @@
   border: 1px solid var(--neutral-alpha-weak);
   border-radius: 8px;
   background: var(--neutral-alpha-weak);
+  animation: slide-in 220ms ease-out;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .arrow,
+  .progressItem {
+    animation: none;
+    transition: none;
+  }
 }
 
 .media {
@@ -30,8 +60,10 @@
   display: grid;
   width: 100%;
   height: 100%;
+  gap: 8px;
   place-items: center;
-  background: var(--neutral-alpha-weak);
+  align-content: center;
+  background: linear-gradient(135deg, var(--brand-alpha-weak), var(--neutral-alpha-medium));
 }
 
 .arrow {
@@ -49,6 +81,7 @@
   font-size: 2rem;
   line-height: 1;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .arrow:hover,
@@ -67,7 +100,7 @@
 .progress {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(13, minmax(8px, 1fr));
+  grid-template-columns: repeat(12, minmax(8px, 1fr));
   gap: 4px;
 }
 
@@ -84,7 +117,119 @@
 .details {
   width: min(100%, 48rem);
   margin: 20px auto 0;
+  text-align: left;
+}
+
+.titleHeader {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+  padding-top: 36px;
+}
+
+.titleKind {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chips {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.counter {
   text-align: center;
+}
+
+.markdown {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
+:global(.project-markdown-details) {
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  overflow-wrap: anywhere;
+}
+
+:global(.project-markdown-details) :global(h2),
+:global(.project-markdown-details) :global(h3) {
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: var(--neutral-on-background-strong);
+  font-weight: 700;
+}
+
+:global(.project-markdown-details) :global(h4),
+:global(.project-markdown-details) :global(h5),
+:global(.project-markdown-details) :global(h6) {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+:global(.project-markdown-details) :global(p) {
+  margin: 8px 0 12px;
+  line-height: 1.75;
+}
+
+:global(.project-markdown-details) :global(ul),
+:global(.project-markdown-details) :global(ol) {
+  margin: 8px 0 16px;
+  padding-left: 22px;
+}
+
+:global(.project-markdown-details) :global(li) {
+  margin: 5px 0;
+  line-height: 1.65;
+}
+
+:global(.project-markdown-details) :global(pre) {
+  margin: 12px 0 20px;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: 8px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+:global(.project-markdown-details) :global(pre code) {
+  white-space: pre;
+  line-height: 1.55;
+}
+
+:global(.project-markdown-details) pre,
+:global(.project-markdown-details) table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.markdown pre,
+.markdown table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.externalLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--brand-on-background-strong);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .description {

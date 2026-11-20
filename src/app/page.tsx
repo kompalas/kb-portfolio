@@ -8,7 +8,6 @@ import {
   Badge,
   Row,
   Schema,
-  Meta,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL } from "@/resources";
 import { NewsTimeline } from "@/components/HomeNews";
@@ -16,22 +15,25 @@ import { ContactForm } from "@/components/ContactForm";
 import { getSiteLocale } from "@/utils/language";
 import { siteText } from "@/resources/i18n";
 import styles from "./home-intro.module.scss";
+import { createPageMetadata } from "@/utils/metadata";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
+import { getProjectSlides } from "@/resources/projectSlides";
 
 export async function generateMetadata() {
-  const metadata = Meta.generate({
+  return createPageMetadata({
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
     path: home.path,
     image: home.image,
   });
-  // Meta.generate writes a canonical only alongside language alternates.
-  return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
 }
 
 export default async function Home() {
   const locale = await getSiteLocale();
   const text = siteText[locale];
+  const projects = getProjectSlides().filter((project) =>
+    ["autopnn", "mannheim-cecas", "hetero-accel"].includes(project.id),
+  );
 
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
@@ -41,7 +43,7 @@ export default async function Home() {
         path={home.path}
         title={home.title}
         description={home.description}
-        image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
+        image={`${baseURL}${home.image}`}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
@@ -102,6 +104,12 @@ export default async function Home() {
         </div>
       </Column>
       <NewsTimeline previewCount={3} locale={locale} />
+      <Column as="section" fillWidth gap="m" aria-labelledby="featured-project-heading">
+        <Heading id="featured-project-heading" as="h2" variant="display-strong-xs">
+          {text.featuredProject}
+        </Heading>
+        <ProjectsGrid locale={locale} projects={projects} limit={3} />
+      </Column>
       <ContactForm locale={locale} />
     </Column>
   );

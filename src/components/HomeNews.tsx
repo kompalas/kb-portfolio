@@ -1,4 +1,4 @@
-import { Button, Column, Heading, Row, SmartLink, Tag, Text } from "@once-ui-system/core";
+import { Button, Column, Heading, Icon, Row, Tag, Text } from "@once-ui-system/core";
 import { news } from "@/resources/news";
 import styles from "./HomeNews.module.scss";
 import { siteText, type Locale } from "@/resources/i18n";
@@ -105,21 +105,39 @@ export const NewsTimeline: React.FC<NewsTimelineProps> = ({ previewCount, locale
                         : item.tag;
                     return (
                       <article className={styles.entry} key={`${item.date}-${item.title}`}>
-                        <Text className={styles.date} variant="body-default-s" onBackground="neutral-weak">
-                          {formatMonth(item.date, locale)}
-                        </Text>
+                        <Column className={styles.dateMeta} gap="4" horizontal="end">
+                          <Text className={styles.date} variant="body-default-s" onBackground="neutral-weak">
+                            {formatMonth(item.date, locale)}
+                          </Text>
+                          {tag && <Tag size="s">{tag}</Tag>}
+                        </Column>
                         <div className={styles.marker} aria-hidden="true">
                           <span className={styles.dot} />
                         </div>
                         <Column className={styles.body} gap="4">
                           <Text variant="body-strong-m">{localized.title}</Text>
-                          <Text variant="body-default-s" onBackground="neutral-weak">
+                          <Text
+                            as="span"
+                            variant="body-default-s"
+                            onBackground="neutral-weak"
+                          >
                             {localized.text}
+                            {item.link && (
+                              <>
+                                {" "}
+                                <a
+                                  className={styles.paperLink}
+                                  href={item.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  aria-label={siteText[locale].openPaper}
+                                  title={siteText[locale].openPaper}
+                                >
+                                  <Icon name="paperclip" size="s" />
+                                </a>
+                              </>
+                            )}
                           </Text>
-                          <Row gap="8" vertical="center">
-                            {tag && <Tag size="s">{tag}</Tag>}
-                            {item.link && <SmartLink href={item.link}>{locale === "el" ? "Άρθρο" : "Paper"}</SmartLink>}
-                          </Row>
                         </Column>
                       </article>
                     );

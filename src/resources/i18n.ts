@@ -2,7 +2,9 @@ export type Locale = "en" | "el";
 
 export const cvFiles: Record<Locale, string> = {
   en: "/Konstantinos_Balaskas.pdf",
-  el: "/Konstantinos_Balaskas.pdf",
+  // Existing Greek CV in public/. Replace this path with /Konstantinos_Balaskas_CV_el.pdf
+  // when the user supplies the canonical filename.
+  el: "/Konstantinos_Balaskas_greek.pdf",
 };
 
 export const siteText: Record<Locale, Record<string, string>> = {
@@ -58,6 +60,14 @@ export const siteText: Record<Locale, Record<string, string>> = {
     languages: "Languages",
     interests: "Interests",
     cv: "View CV",
+    openPaper: "Open paper",
+    description: "Description",
+    details: "Details",
+    research: "Research",
+    code: "Code",
+    backToProjects: "Back to projects",
+    slide: "Slide",
+    featuredProject: "Featured project",
     cvTitle: "Curriculum Vitae",
     printCv: "Print / Save PDF",
     selectedPublications: "Selected Publications",
@@ -90,9 +100,9 @@ export const siteText: Record<Locale, Record<string, string>> = {
     mailHandoff: "Θα ανοίξει η εφαρμογή email με το μήνυμά σας έτοιμο για αποστολή.",
     messageError: "Το μήνυμα δεν στάλθηκε. Δοκιμάστε ξανά ή στείλτε μου email.",
     researchProjects: "Ερευνητικά έργα",
-    codingProjects: "Έργα προγραμματισμού",
+    codingProjects: "Προγραμματισμός",
     projectsDescription:
-      "Ερευνητικά έργα και έργα προγραμματισμού στους επιταχυντές μηχανικής μάθησης, την προσεγγιστική υπολογιστική και τα εύκαμπτα ηλεκτρονικά.",
+      "Ερευνητικά έργα και project προγραμματισμού στη μηχανική μάθηση, επιταχυντές υλικού, την προσεγγιστική υπολογιστική και τα εύκαμπτα ηλεκτρονικά.",
     viewProject: "Προβολή έργου",
     projectDetails: "Λεπτομέρειες έργου",
     researchProject: "Ερευνητικό έργο",
@@ -116,6 +126,14 @@ export const siteText: Record<Locale, Record<string, string>> = {
     languages: "Γλώσσες",
     interests: "Ενδιαφέροντα",
     cv: "Προβολή βιογραφικού",
+    openPaper: "Άνοιγμα δημοσίευσης",
+    description: "Περιγραφή",
+    details: "Λεπτομέρειες",
+    research: "Έρευνα",
+    code: "Κώδικας",
+    backToProjects: "Επιστροφή στα έργα",
+    slide: "Διαφάνεια",
+    featuredProject: "Επιλεγμένο έργο",
     cvTitle: "Βιογραφικό σημείωμα",
     printCv: "Εκτύπωση / Αποθήκευση PDF",
     selectedPublications: "Επιλεγμένες δημοσιεύσεις",

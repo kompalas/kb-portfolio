@@ -1,10 +1,10 @@
-# Magic Portfolio
+# Konstantinos Balaskas Portfolio
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Personal portfolio for Konstantinos Balaskas, an Edge AI researcher working across machine learning, hardware accelerators and flexible electronics.
 
-View the demo [here](https://magic-portfolio-demo.vercel.app).
+View the portfolio at https://kb-portfolio-blue.vercel.app.
 
-![Magic Portfolio](public/images/og/home.jpg)
+![Konstantinos Balaskas portfolio preview](public/images/og/home.jpg)
 
 Launch your portfolio on [Aveiro](https://www.aveiro.app/marketplace/spotlight), our managed publishing platform. Update case studies, blog posts and content through MCP from your favorite AI tools.
 
@@ -107,4 +107,4 @@ See `LICENSE` for more information.
 
 ## Deploy with Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fmagic-portfolio-demo.vercel.app&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkompalas%2Fkb-portfolio&project-name=kb-portfolio&repository-name=kb-portfolio)

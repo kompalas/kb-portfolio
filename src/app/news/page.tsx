@@ -1,21 +1,20 @@
-import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
+import { Column, Heading, Schema, Text } from "@once-ui-system/core";
 import { about, baseURL, home, person } from "@/resources";
 import { NewsTimeline } from "@/components/HomeNews";
 import { getSiteLocale } from "@/utils/language";
 import { siteText } from "@/resources/i18n";
+import { createPageMetadata } from "@/utils/metadata";
 
 const title = `News - ${person.name}`;
 const description = `News and milestones from ${person.name}'s research career.`;
 
 export async function generateMetadata() {
-  const metadata = Meta.generate({
+  return createPageMetadata({
     title,
     description,
-    baseURL,
     path: "/news",
     image: `/api/og/generate?title=${encodeURIComponent(title)}`,
   });
-  return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
 }
 
 export default async function NewsPage() {

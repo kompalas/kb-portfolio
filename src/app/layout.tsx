@@ -9,7 +9,6 @@ import {
   Background,
   Column,
   Flex,
-  Meta,
   Opacity,
   RevealFx,
   SpacingToken,
@@ -18,12 +17,12 @@ import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { CursorGlow } from "@/components/CursorGlow";
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 import { getSiteLocale } from "@/utils/language";
+import { createPageMetadata } from "@/utils/metadata";
 
 export async function generateMetadata() {
-  const metadata = Meta.generate({
+  const metadata = createPageMetadata({
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
     path: home.path,
     image: home.image,
   });

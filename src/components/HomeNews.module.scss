@@ -37,6 +37,10 @@
   text-align: right;
 }
 
+.dateMeta {
+  align-items: flex-end;
+}
+
 .marker {
   z-index: 1;
   display: flex;
@@ -58,6 +62,19 @@
   padding-bottom: 4px;
 }
 
+.paperLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--brand-on-background-strong);
+  vertical-align: -0.15em;
+  text-decoration: none;
+}
+
+.paperLink:hover,
+.paperLink:focus-visible {
+  color: var(--brand-on-background-medium);
+}
+
 @media (max-width: 600px) {
   .timeline::before {
     left: 5px;
@@ -71,8 +88,13 @@
   }
 
   .date {
-    grid-column: 2;
     text-align: left;
+  }
+
+  .dateMeta {
+    grid-column: 2;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 
   .marker {

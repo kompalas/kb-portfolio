@@ -8,7 +8,6 @@ import {
   Media,
   Tag,
   Text,
-  Meta,
   Schema,
   Row,
   SmartLink,
@@ -19,6 +18,7 @@ import styles from "@/components/about/about.module.scss";
 import { getSiteLocale } from "@/utils/language";
 import { cvFiles, siteText } from "@/resources/i18n";
 import React from "react";
+import { createPageMetadata } from "@/utils/metadata";
 
 const greekExperience = [
   {
@@ -108,15 +108,12 @@ function SectionHeading({ id, title, icon }: { id: string; title: string; icon: 
 }
 
 export async function generateMetadata() {
-  const metadata = Meta.generate({
+  return createPageMetadata({
     title: about.title,
     description: about.description,
-    baseURL: baseURL,
     image: `/api/og/generate?title=${encodeURIComponent(about.title)}`,
     path: about.path,
   });
-  // Meta.generate writes a canonical only alongside language alternates.
-  return { ...metadata, alternates: { canonical: metadata.openGraph.url } };
 }
 
 export default async function About() {
@@ -248,7 +245,7 @@ export default async function About() {
           {about.intro.display && (
             <Column
               id={about.intro.title}
-              className={`${styles.introduction} ${styles.hoverBlock}`}
+              className={styles.introduction}
               textVariant="body-default-l"
               fillWidth
               gap="m"
@@ -280,7 +277,6 @@ export default async function About() {
                 {about.work.experiences.map((experience, index) => (
                   <Column
                     key={`${experience.company}-${experience.role}-${index}`}
-                    className={styles.hoverBlock}
                     fillWidth
                   >
                     {(() => {
@@ -348,7 +344,6 @@ export default async function About() {
                 {about.studies.institutions.map((institution, index) => (
                   <Column
                     key={`${institution.name}-${index}`}
-                    className={styles.hoverBlock}
                     fillWidth
                     gap="4"
                   >
@@ -377,7 +372,6 @@ export default async function About() {
                 {about.technical.skills.map((skill, index) => (
                   <Column
                     key={`${skill}-${index}`}
-                    className={styles.hoverBlock}
                     fillWidth
                     gap="4"
                   >
@@ -438,7 +432,6 @@ export default async function About() {
                 {about.teaching.items.map((item, index) => (
                   <Column
                     key={item.activity}
-                    className={styles.hoverBlock}
                     fillWidth
                     gap="4"
                   >
@@ -494,7 +487,6 @@ export default async function About() {
                     {group.items.map((publication, publicationIndex) => (
                       <Text
                         as="li"
-                        className={styles.hoverBlock}
                         variant="body-default-m"
                         key={publication.doi}
                       >
@@ -539,7 +531,6 @@ export default async function About() {
                     {group.items.map((talk) => (
                       <Text
                         as="li"
-                        className={styles.hoverBlock}
                         variant="body-default-m"
                         key={`${talk.event}-${talk.title}`}
                       >

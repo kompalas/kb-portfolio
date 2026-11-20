@@ -13,6 +13,7 @@ import {
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
   HiOutlineNewspaper,
+  HiOutlinePaperClip,
 } from "react-icons/hi2";
 
 import {
@@ -55,6 +56,7 @@ export const iconLibrary = {
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
   newspaper: HiOutlineNewspaper,
+  paperclip: HiOutlinePaperClip,
   algorithm: PiTreeStructure,
   discord: FaDiscord,
   eye: HiOutlineEye,
