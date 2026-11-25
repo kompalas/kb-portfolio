@@ -73,7 +73,7 @@ export default async function Home() {
           variant="display-strong-l"
         >
           {locale === "el"
-            ? "Συν-σχεδιάζοντας μηχανική μάθηση και υλικό για την άκρη του δικτύου"
+            ? "Μεταδιδακτορικός ερευνητής στο Edge AI"
             : home.headline}
         </Heading>
         <Text
@@ -83,7 +83,7 @@ export default async function Home() {
           variant="heading-default-l"
         >
           {locale === "el"
-            ? "Είμαι ο Κωνσταντίνος, μεταδιδακτορικός ερευνητής στο Edge AI. Συν-σχεδιάζω μοντέλα μηχανικής μάθησης και το υλικό που τα εκτελεί, από FPGA και automotive SoC έως εύκαμπτα ηλεκτρονικά χαμηλού κόστους."
+            ? "Γεια! Είμαι ο Κωνσταντίνος, μεταδιδακτορικός ερευνητής, με ειδίκευση στο Edge AI. Συν-σχεδιάζω μοντέλα AI και τους επεξεργαστές που τα εκτελεί, με έμφαση σε επιταχυντές AI περιορισμένων πόρων, ενσωματωμένα συστήματα και φορητές πλατφόρμες."
             : home.subline}
         </Text>
         <div className={styles.actionsReveal}>

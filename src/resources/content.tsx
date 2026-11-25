@@ -62,12 +62,12 @@ const home: Home = {
   title: "Konstantinos Balaskas | Edge AI researcher",
   description:
     "Portfolio of Konstantinos Balaskas, post-doctoral researcher on edge AI: ML accelerators, approximate computing and flexible electronics.",
-  headline: <>Co-designing machine learning and hardware for the edge</>,
+  // headline: <>Co-designing machine learning and hardware for the edge</>,
+  headline: "Post-Doctoral Researcher on Edge AI",
   subline: (
     <>
-      I'm Konstantinos, a post-doctoral researcher working on edge AI. I co-design ML models and
-      the hardware that runs them, from FPGAs and automotive SoCs to ultra-low-cost flexible
-      electronics.
+      Hey there! I'm Konstantinos, a post-doctoral researcher working on edge AI. I co-design AI models and
+      the hardware that runs them, focusing on ultra-resource-constrained AI accelerators, embedded systems and wearable platforms.
     </>
   ),
 };
