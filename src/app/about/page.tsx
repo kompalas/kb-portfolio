@@ -1,3 +1,10 @@
+import { ResearchIcon } from "@/components/ResearchIcon";
+import TableOfContents from "@/components/about/TableOfContents";
+import styles from "@/components/about/about.module.scss";
+import { about, baseURL, person, social } from "@/resources";
+import { cvFiles, siteText, type Locale } from "@/resources/i18n";
+import { getSiteLocale } from "@/utils/language";
+import { createPageMetadata } from "@/utils/metadata";
 import {
   Avatar,
   Button,
@@ -6,19 +13,13 @@ import {
   Icon,
   IconButton,
   Media,
+  Row,
+  Schema,
+  SmartLink,
   Tag,
   Text,
-  Schema,
-  Row,
-  SmartLink,
 } from "@once-ui-system/core";
-import { baseURL, about, person, social } from "@/resources";
-import TableOfContents from "@/components/about/TableOfContents";
-import styles from "@/components/about/about.module.scss";
-import { getSiteLocale } from "@/utils/language";
-import { cvFiles, siteText } from "@/resources/i18n";
 import React from "react";
-import { createPageMetadata } from "@/utils/metadata";
 
 const greekExperience = [
   {
@@ -82,6 +83,44 @@ const greekStudies = [
   "Μεταπτυχιακό στην Ηλεκτρονική και τις Τηλεπικοινωνίες",
   "Πτυχίο στη Φυσική",
 ];
+
+const englishMonths: Record<string, number> = {
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
+};
+
+function formatAboutDate(value: string, locale: Locale) {
+  if (locale !== "el") return value;
+
+  const formatPart = (part: string) => {
+    const fullDate = part.match(/^([A-Z][a-z]{2}) (\d{1,2}), (\d{4})$/);
+    const monthYear = part.match(/^([A-Z][a-z]{2}) (\d{4})$/);
+    const month = fullDate?.[1] ?? monthYear?.[1];
+    const year = Number(fullDate?.[3] ?? monthYear?.[2]);
+    const monthIndex = month ? englishMonths[month] : undefined;
+
+    if (monthIndex === undefined || !Number.isInteger(year)) return part;
+
+    const date = new Date(Date.UTC(year, monthIndex, fullDate ? Number(fullDate[2]) : 1));
+    const options: Intl.DateTimeFormatOptions = fullDate
+      ? { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }
+      : { month: "long", year: "numeric", timeZone: "UTC" };
+
+    return new Intl.DateTimeFormat("el-GR", options).format(date);
+  };
+
+  return value.split(/\s+-\s+/).map(formatPart).join(" – ");
+}
 
 function SectionHeading({ id, title, icon }: { id: string; title: string; icon: string }) {
   return (
@@ -288,7 +327,7 @@ export default async function About() {
                         {localized.company}
                       </Text>
                       <Text variant="heading-default-xs" onBackground="neutral-weak">
-                        {experience.timeframe}
+                        {formatAboutDate(experience.timeframe, locale)}
                       </Text>
                     </Row>
                     <Text variant="body-default-s" onBackground="neutral-weak" marginBottom="m">
@@ -359,6 +398,22 @@ export default async function About() {
                           ][index]
                         : institution.description}
                     </Text>
+                    {index === 0 && (
+                      <a
+                        href={`https://freader.ekt.gr/eadd/index.php?doc=57080&lang=${isGreek ? "el" : "en"}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "var(--brand-on-background-strong)",
+                          fontSize: "0.9rem",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "3px",
+                        }}
+                      >
+                        <ResearchIcon />
+                        {isGreek ? "Προβολή διδακτορικής διατριβής" : "View PhD thesis"}
+                      </a>
+                    )}
                   </Column>
                 ))}
               </Column>
@@ -444,7 +499,7 @@ export default async function About() {
                           : item.activity}
                       </Text>
                       <Text variant="body-default-s" onBackground="neutral-weak">
-                        {item.timeframe}
+                        {formatAboutDate(item.timeframe, locale)}
                       </Text>
                     </Row>
                     <Text variant="body-default-s" onBackground="neutral-weak">
@@ -493,7 +548,8 @@ export default async function About() {
                         <Text as="span" weight="strong" onBackground="brand-medium">
                           [{groupIndex === 0 ? "J" : "C"}{publicationIndex + 1}]
                         </Text>{" "}
-                        {publication.authors} ({publication.date}). "{publication.title}."{" "}
+                        {publication.authors} ({formatAboutDate(publication.date, locale)}). "
+                        {publication.title}."{" "}
                         <Text as="span" onBackground="neutral-weak">
                           {publication.venue}.
                         </Text>{" "}
@@ -538,7 +594,7 @@ export default async function About() {
                           {talk.title}
                         </Text>{" "}
                         <Text as="span" onBackground="neutral-weak">
-                          {talk.event}, {talk.date}, {talk.location}.
+                          {talk.event}, {formatAboutDate(talk.date, locale)}, {talk.location}.
                         </Text>
                       </Text>
                     ))}

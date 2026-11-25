@@ -1,11 +1,12 @@
 "use client";
 
+import styles from "@/app/work/projects.module.scss";
+import { ResearchIcon } from "@/components/ResearchIcon";
+import { type Locale, siteText } from "@/resources/i18n";
+import type { ProjectSlide } from "@/resources/projectSlides";
+import { Column, Heading, Icon, Tag, Text } from "@once-ui-system/core";
 import Link from "next/link";
 import { useEffect } from "react";
-import { Column, Heading, Icon, Text } from "@once-ui-system/core";
-import type { ProjectSlide } from "@/resources/projectSlides";
-import styles from "@/app/work/projects.module.scss";
-import { siteText, type Locale } from "@/resources/i18n";
 
 export const ProjectsGrid = ({
   locale = "en",
@@ -30,70 +31,87 @@ export const ProjectsGrid = ({
   }, []);
 
   const renderCard = (project: ProjectSlide) => {
-        const hasImage = Boolean(project.image);
-        return (
-          <article className={styles.card} key={project.id}>
-            {hasImage ? (
-              <Link
-                className={styles.posterImage}
-                href={`/projects/view/${project.id}`}
-                aria-label={`${project.title} project poster`}
-                onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
-              >
-                {/* Project images are placed at public/images/projects/<id>.jpg */}
-                <img
-                  src={project.image}
-                  alt=""
-                  loading="lazy"
-                  width="1600"
-                  height="900"
-                  sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
-                />
-              </Link>
+    const hasImage = Boolean(project.image);
+    return (
+      <article className={styles.card} key={project.id}>
+        {hasImage ? (
+          <Link
+            className={styles.posterImage}
+            href={`/projects/view/${project.id}`}
+            aria-label={`${project.title} project poster`}
+            onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
+          >
+            {/* Project images are placed at public/images/projects/<id>.jpg */}
+            <img
+              src={project.image}
+              alt=""
+              loading="lazy"
+              width="1600"
+              height="900"
+              sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
+            />
+          </Link>
+        ) : (
+          <Link
+            className={styles.poster}
+            href={`/projects/view/${project.id}`}
+            aria-label={`${project.title} [TODO: add project image]`}
+            onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
+          >
+            <span>{project.title}</span>
+          </Link>
+        )}
+        <Column className={styles.cardBody} gap="s">
+          <div className={styles.meta}>
+            <Tag size="s">{project.kind === "Research project" ? text.research : text.code}</Tag>
+            <Text
+              className={styles.periodMeta}
+              variant="body-default-xs"
+              onBackground="neutral-weak"
+            >
+              {locale === "el" ? project.periodEl : project.period}
+            </Text>
+          </div>
+          <Text className={styles.roleMeta} variant="body-default-xs" onBackground="neutral-weak">
+            {locale === "el" ? project.roleEl : project.role}
+          </Text>
+          <Heading className={styles.cardTitle} as="h3" variant="heading-strong-m">
+            <Link
+              className={styles.cardTitleLink}
+              href={`/projects/view/${project.id}`}
+              onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
+            >
+              {project.title}
+            </Link>
+          </Heading>
+          <Text
+            className={styles.cardDescription}
+            variant="body-default-s"
+            onBackground="neutral-weak"
+          >
+            {locale === "el" ? (project.descriptionEl ?? project.description) : project.description}
+          </Text>
+          <a
+            className={styles.externalLink}
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
+          >
+            {project.kind === "Coding project" ? (
+              <Icon className={styles.githubIcon} name="github" size="s" />
             ) : (
-              <Link
-                className={styles.poster}
-                href={`/projects/view/${project.id}`}
-                aria-label={`${project.title} [TODO: add project image]`}
-                onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
-              >
-                <span>{project.title}</span>
-              </Link>
+              <ResearchIcon />
             )}
-            <Column className={styles.cardBody} gap="s">
-              <div className={styles.meta}>
-                <Text variant="body-default-xs" onBackground="neutral-weak">
-                  {project.period}
-                </Text>
-              </div>
-              <Heading as="h3" variant="heading-strong-m">
-                <Link
-                  className={styles.cardTitleLink}
-                  href={`/projects/view/${project.id}`}
-                  onClick={() => sessionStorage.setItem("projects-scroll", String(window.scrollY))}
-                >
-                  {project.title}
-                </Link>
-              </Heading>
-              <Text variant="body-default-s" onBackground="neutral-weak">
-                {locale === "el" ? project.descriptionEl ?? project.description : project.description}
-              </Text>
-              <a
-                className={styles.externalLink}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
-              >
-                {project.kind === "Coding project" && (
-                  <Icon className={styles.githubIcon} name="github" size="s" />
-                )}
-                {text.findOutMore}
-                <span className={styles.externalArrow} aria-hidden="true"> ↗</span>
-              </a>
-            </Column>
-          </article>
-        );
+            {text.findOutMore}
+            <span className={styles.externalArrow} aria-hidden="true">
+              {" "}
+              ↗
+            </span>
+          </a>
+        </Column>
+      </article>
+    );
   };
 
   return (

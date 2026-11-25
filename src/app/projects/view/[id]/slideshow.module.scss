@@ -21,9 +21,9 @@
 .stage {
   position: relative;
   display: grid;
-  width: 100%;
-  min-height: min(62vh, 680px);
-  aspect-ratio: 16 / 9;
+  width: min(100%, 940px);
+  height: min(62vh, 540px);
+  margin-inline: auto;
   place-items: center;
   overflow: hidden;
   border: 1px solid var(--neutral-alpha-weak);
@@ -51,8 +51,10 @@
 }
 
 .media {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(62vh, 540px);
   object-fit: contain;
 }
 
@@ -121,20 +123,21 @@
 }
 
 .sectionLabel {
-  margin: 32px 0 12px;
-  text-align: center;
+  width: min(100%, 44rem);
+  margin: 24px auto 8px;
   font-weight: 700;
 }
 
 .description {
+  width: min(100%, 44rem);
   max-width: 44rem;
   margin: 0 auto;
-  text-align: center;
-  font-weight: 700;
+  text-align: left;
   line-height: 1.55;
 }
 
 .detailText {
+  width: min(100%, 44rem);
   max-width: 44rem;
   margin: 0 auto;
   text-align: left;
@@ -144,6 +147,7 @@
 }
 
 .citation {
+  width: min(100%, 44rem);
   max-width: 44rem;
   margin: 20px auto 0;
   display: grid;
@@ -159,16 +163,27 @@
 }
 
 .titleHeader {
-  position: relative;
   width: 100%;
   margin-bottom: 8px;
-  padding-top: 36px;
 }
 
-.titleKind {
-  position: absolute;
-  top: 0;
-  left: 0;
+.projectMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.metaTag {
+  max-width: 100%;
+  padding: 5px 10px;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: 999px;
+  background: var(--surface-background);
+  color: var(--neutral-on-background-strong);
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 .chips {
@@ -252,10 +267,27 @@
 }
 
 .externalLink {
-  display: inline-block;
-  margin-top: 16px;
+  display: block;
+  width: fit-content;
+  margin-top: 20px;
   color: var(--brand-on-background-strong);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.projectLinks {
+  width: min(100%, 44rem);
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+.downloadLink {
+  display: block;
+  width: fit-content;
+  margin-top: 8px;
+  color: var(--brand-on-background-strong);
+  font-size: 0.9rem;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -281,8 +313,11 @@
 
 @media (max-width: 600px) {
   .stage {
-    min-height: 52vh;
-    aspect-ratio: 4 / 3;
+    height: min(52vh, 420px);
+  }
+
+  .media {
+    max-height: min(52vh, 420px);
   }
 
   .previous {

@@ -1,18 +1,18 @@
-import { notFound } from "next/navigation";
-import { Schema } from "@once-ui-system/core";
+import { ProjectSlideshow as ProjectSlideshowView } from "@/components/ProjectSlideshow";
 import { about, baseURL, person } from "@/resources";
-import { getProjectSlides } from "@/resources/projectSlides";
+import { getProjectSlidesInDisplayOrder } from "@/resources/projectSlides";
 import { getSiteLocale } from "@/utils/language";
 import { createPageMetadata } from "@/utils/metadata";
-import { ProjectSlideshow as ProjectSlideshowView } from "@/components/ProjectSlideshow";
+import { Schema } from "@once-ui-system/core";
+import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
-  return getProjectSlides().map((project) => ({ id: project.id }));
+  return getProjectSlidesInDisplayOrder().map((project) => ({ id: project.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const project = getProjectSlides().find((item) => item.id === id);
+  const project = getProjectSlidesInDisplayOrder().find((item) => item.id === id);
   if (!project) return {};
   return createPageMetadata({
     title: project.title,
@@ -29,7 +29,7 @@ export default async function ProjectSlideshow({
 }) {
   const { id } = await params;
   const locale = await getSiteLocale();
-  const projects = getProjectSlides();
+  const projects = getProjectSlidesInDisplayOrder();
   const currentIndex = projects.findIndex((project) => project.id === id);
   if (currentIndex < 0) notFound();
 
@@ -45,11 +45,7 @@ export default async function ProjectSlideshow({
         description={project.description}
         author={{ name: person.name, url: `${baseURL}${about.path}` }}
       />
-      <ProjectSlideshowView
-        projects={projects}
-        currentId={id}
-        locale={locale}
-      />
+      <ProjectSlideshowView key={id} projects={projects} currentId={id} locale={locale} />
     </>
   );
 }

@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Column, Heading, Icon, Tag, Text } from "@once-ui-system/core";
-import type { ProjectSlide } from "@/resources/projectSlides";
+import styles from "@/app/projects/view/[id]/slideshow.module.scss";
+import { ResearchIcon } from "@/components/ResearchIcon";
 import type { Locale } from "@/resources/i18n";
 import { siteText } from "@/resources/i18n";
-import styles from "@/app/projects/view/[id]/slideshow.module.scss";
+import type { ProjectSlide } from "@/resources/projectSlides";
+import { Column, Heading, Icon, Text } from "@once-ui-system/core";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function ProjectSlideshow({
   projects,
@@ -26,19 +27,38 @@ export function ProjectSlideshow({
   const touchStart = useRef<number | null>(null);
   const [announcement, setAnnouncement] = useState("");
 
-  const navigate = (index: number) => {
-    const target = projects[(index + projects.length) % projects.length];
-    setAnnouncement(`${target.title}, ${index + 1} / ${projects.length}`);
-    router.push(`/projects/view/${target.id}`);
-  };
+  const navigate = useCallback(
+    (index: number) => {
+      const target = projects[(index + projects.length) % projects.length];
+      setAnnouncement(`${target.title}, ${index + 1} / ${projects.length}`);
+      router.push(`/projects/view/${target.id}`);
+    },
+    [projects, router],
+  );
+
+  const returnToGrid = useCallback(() => {
+    const saved = sessionStorage.getItem("projects-scroll");
+    if (saved) sessionStorage.setItem("projects-scroll-restored", saved);
+    router.push("/projects");
+  }, [router]);
 
   useEffect(() => {
     titleRef.current?.focus({ preventScroll: true });
-  }, [currentId]);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) return;
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target instanceof HTMLInputElement ||
+          target instanceof HTMLTextAreaElement ||
+          target instanceof HTMLSelectElement)
+      ) {
+        return;
+      }
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         navigate(currentIndex - 1);
@@ -47,21 +67,26 @@ export function ProjectSlideshow({
         event.preventDefault();
         navigate(currentIndex + 1);
       }
-      if (event.key === "Escape") {
+      if (event.key === "Escape" || event.key === "Backspace") {
         event.preventDefault();
-        router.push("/projects");
+        returnToGrid();
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentIndex, router]);
+  }, [currentIndex, navigate, returnToGrid]);
 
   if (!project) return null;
   const previous = projects[(currentIndex - 1 + projects.length) % projects.length];
   const next = projects[(currentIndex + 1) % projects.length];
   const isGreek = locale === "el";
-  const description = isGreek ? project.descriptionEl ?? project.description : project.description;
-  const details = isGreek ? project.detailsEl ?? project.details : project.details;
+  const description = isGreek
+    ? (project.descriptionEl ?? project.description)
+    : project.description;
+  const roleDescription = isGreek
+    ? (project.roleDescriptionEl ?? project.roleDescription)
+    : project.roleDescription;
+  const details = isGreek ? (project.detailsEl ?? project.details) : project.details;
 
   return (
     <Column className={styles.page} maxWidth="l" fillWidth gap="m" paddingY="16">
@@ -96,8 +121,6 @@ export function ProjectSlideshow({
             className={styles.media}
             src={project.image}
             alt={`${project.title} project poster`}
-            width="1600"
-            height="900"
             loading={currentIndex < 2 ? "eager" : "lazy"}
           />
         ) : (
@@ -127,7 +150,10 @@ export function ProjectSlideshow({
           &rsaquo;
         </button>
       </div>
-      <nav className={styles.progress} aria-label={`${text.slide} ${currentIndex + 1} / ${projects.length}`}>
+      <nav
+        className={styles.progress}
+        aria-label={`${text.slide} ${currentIndex + 1} / ${projects.length}`}
+      >
         {projects.map((item, index) => (
           <Link
             key={item.id}
@@ -142,29 +168,31 @@ export function ProjectSlideshow({
         {currentIndex + 1} / {projects.length}
       </Text>
       <article className={styles.details}>
+        <div className={styles.projectMeta}>
+          <span className={styles.metaTag}>
+            {project.kind === "Research project" ? text.research : text.code}
+          </span>
+          <span className={styles.metaTag}>{isGreek ? project.periodEl : project.period}</span>
+          <span className={styles.metaTag}>{isGreek ? project.roleEl : project.role}</span>
+        </div>
         <div className={styles.titleHeader}>
-          <div className={styles.titleKind}>
-            <Tag size="s">
-              {project.kind === "Research project" ? text.research : text.code}
-            </Tag>
-          </div>
           <Heading ref={titleRef} as="h1" tabIndex={-1} variant="display-strong-s" align="center">
             {project.title}
           </Heading>
         </div>
-        <Text variant="body-default-xs" onBackground="neutral-weak" align="center">
-          {project.period}
-        </Text>
-        <Text variant="body-default-xs" onBackground="neutral-weak" align="center">
-          {project.role}
-        </Text>
-        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-l" align="center">
+        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-m">
           {text.description}
         </Heading>
-        <Text className={styles.description} variant="heading-strong-m" align="center">
+        <Text className={styles.description} variant="body-default-l" onBackground="neutral-weak">
           {description}
         </Text>
-        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-l" align="center">
+        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-m">
+          {text.myRole}
+        </Heading>
+        <Text className={styles.detailText} variant="body-default-l" onBackground="neutral-weak">
+          {roleDescription}
+        </Text>
+        <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-m">
           {text.details}
         </Heading>
         <Text className={styles.detailText} variant="body-default-l" onBackground="neutral-weak">
@@ -172,7 +200,9 @@ export function ProjectSlideshow({
         </Text>
         {project.citation && (
           <div className={styles.citation}>
-            <Text variant="body-default-s" weight="strong">{text.citation}</Text>
+            <Text variant="body-default-s" weight="strong">
+              {text.citation}
+            </Text>
             <Text variant="body-default-s" onBackground="neutral-weak">
               {text.citePrompt}
             </Text>
@@ -186,19 +216,34 @@ export function ProjectSlideshow({
             </a>
           </div>
         )}
-        <a
-          className={styles.externalLink}
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
-        >
-          {project.kind === "Coding project" && (
-            <Icon className={styles.githubIcon} name="github" size="s" />
+        <div className={styles.projectLinks}>
+          <a
+            className={styles.externalLink}
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${text.findOutMore} about ${project.title} (opens in a new tab)`}
+          >
+            {project.kind === "Coding project" ? (
+              <Icon className={styles.githubIcon} name="github" size="s" />
+            ) : (
+              <ResearchIcon />
+            )}
+            {text.findOutMore}
+            <span aria-hidden="true"> ↗</span>
+          </a>
+          {project.downloadUrl && (
+            <a
+              className={styles.downloadLink}
+              href={project.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span aria-hidden="true">↓ </span>
+              {text.downloadProjectCode}
+            </a>
           )}
-          {text.findOutMore}
-          <span aria-hidden="true"> ↗</span>
-        </a>
+        </div>
       </article>
       <span className={styles.live} aria-live="polite">
         {announcement}
