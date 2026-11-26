@@ -1,6 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import { type Project, type ProjectCitation, getProjects } from "@/resources/projects";
+import {
+  type Project,
+  type ProjectCitation,
+  type ProjectDetailBlock,
+  getProjects,
+} from "@/resources/projects";
 
 export type ProjectSlide = {
   id: string;
@@ -11,6 +16,7 @@ export type ProjectSlide = {
   roleDescriptionEl?: string;
   details: string;
   detailsEl?: string;
+  detailsContent?: { en: ProjectDetailBlock[]; el: ProjectDetailBlock[] };
   citation?: ProjectCitation;
   kind: "Research project" | "Coding project";
   period: string;
@@ -42,6 +48,7 @@ export function getProjectSlides(): ProjectSlide[] {
       link: project.link,
       details: project.details,
       detailsEl: project.detailsEl,
+      detailsContent: project.detailsContent,
       citation: project.citation,
       downloadUrl: project.downloadUrl,
       image: fs.existsSync(absoluteImage) ? project.image : undefined,

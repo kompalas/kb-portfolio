@@ -146,6 +146,20 @@
   white-space: normal;
 }
 
+.detailImage {
+  width: min(100%, 44rem);
+  max-width: 44rem;
+  margin: 16px auto;
+}
+
+.detailImage img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: 8px;
+}
+
 .citation {
   width: min(100%, 44rem);
   max-width: 44rem;

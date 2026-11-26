@@ -3,6 +3,10 @@ export type ProjectCitation = {
   url: string;
 };
 
+export type ProjectDetailBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "image"; src: string; alt: string };
+
 export type Project = {
   id: string;
   title: string;
@@ -19,6 +23,7 @@ export type Project = {
   roleDescriptionEl: string;
   details: string;
   detailsEl: string;
+  detailsContent?: { en: ProjectDetailBlock[]; el: ProjectDetailBlock[] };
   citation?: ProjectCitation;
   downloadUrl?: string;
 };
@@ -30,11 +35,11 @@ export const projects: Project[] = [
     kind: "research",
     period: "Jul 2024 - Oct 2025",
     periodEl: "Ιούλ 2024 - Οκτ 2025",
-    role: "Research Team Leader @ University of Patras (CEID)",
-    roleEl: "Επικεφαλής ερευνητικής ομάδας @ Πανεπιστήμιο Πατρών (CEID)",
+    role: "Research Team Leader",
+    roleEl: "Επικεφαλής Ερευνητικής Ομάδας",
     link: "https://autopnn.github.io",
     downloadUrl: "https://drive.google.com/uc?export=download&id=1jV4heYMcd5wU8uG15kOlVEFXVmJRqHK1",
-    image: "/images/projects/autopnn/main.jpg",
+    image: "/images/projects/autopnn/logo.jpg",
     description:
       "Printed electronics can put intelligence on smart packaging, diagnostic strips and wearable patches, but their large feature sizes and limited power make conventional machine-learning circuits difficult to build. AutoPNN develops an automated design flow for printed neural networks that coordinates model exploration, neural-network simplification and hardware approximation to meet user-defined accuracy, area and energy constraints. As team leader at the University of Patras, I led the group developing this software-hardware co-design approach.",
     descriptionEl:
@@ -55,9 +60,9 @@ export const projects: Project[] = [
     period: "Jul 2025 - Sep 2025",
     periodEl: "Ιούλ 2025 - Σεπ 2025",
     role: "Head Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/flexaf",
-    image: "/images/projects/flexaf/main.png",
+    image: "/images/projects/flexaf/system.png",
     description:
       "Flexible wearable sensors have tight limits on area, power and integration density, and extracting every possible signal can cost more than classifying it. FlexAf makes feature selection part of neural-network training: learnable stochastic gates select useful measurements while a cost-aware objective accounts for the hardware area of extracting them. It is a software framework for co-optimizing the sensor's inputs and classifier in mixed-signal healthcare wearables.",
     descriptionEl:
@@ -82,10 +87,10 @@ export const projects: Project[] = [
     kind: "research",
     period: "Jul 2023 - Jun 2024",
     periodEl: "Ιούλ 2023 - Ιούν 2024",
-    role: "Research Associate @ Karlsruhe Institute of Technology",
-    roleEl: "Ερευνητικός συνεργάτης @ Ινστιτούτο Τεχνολογίας της Καρλσρούης (KIT)",
+    role: "Research Associate",
+    roleEl: "Ερευνητικός Συνεργάτης",
     link: "https://elektronikforschung.de/projekte/mannheim-cecas",
-    image: "/images/projects/cecas/cecas.jpg", // or "/images/projects/cecas/logo.jpeg
+    image: "/images/projects/cecas/car.jpg",
     description:
       "Modern vehicles distribute functions across many electronic control units, creating growing integration and software-complexity challenges. MANNHEIM-CeCaS developed the concept of a standardized, modular central car server: a high-performance computing platform integrated with zonal vehicle architecture and designed for the safety and reliability demands of automated driving. Within the consortium of 29 partners, my work at KIT focused on AI models, accelerators and the allocation of neural-network workloads between central and edge compute.",
     descriptionEl:
@@ -106,9 +111,9 @@ export const projects: Project[] = [
     period: "Nov 2023 - Jun 2024",
     periodEl: "Νοέ 2023 - Ιούν 2024",
     role: "Head Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/hetero-accel",
-    image: "/images/projects/heteroaccel/main.png",
+    image: "/images/projects/heteroaccel/system.png",
     description:
       "When a chip has to run several neural networks at once, a single accelerator design rarely suits all of them. HeteroAccel searches for a set of different accelerators and a schedule for a given multi-network workload, using simulated annealing on top of Timeloop-Accelergy models to minimize energy-delay product.",
     descriptionEl:
@@ -132,10 +137,10 @@ export const projects: Project[] = [
     kind: "research",
     period: "Jun 2022 - Jun 2023",
     periodEl: "Ιούν 2022 - Ιούν 2023",
-    role: "Research Associate @ Karlsruhe Institute of Technology",
-    roleEl: "Ερευνητικός συνεργάτης @ Ινστιτούτο Τεχνολογίας της Καρλσρούης (KIT)",
+    role: "Research Associate",
+    roleEl: "Ερευνητικός Συνεργάτης",
     link: "https://gepris.dfg.de/gepris/projekt/428566201",
-    image: "/images/projects/accross/main.jpg",
+    image: "/images/projects/accross/logo.png",
     description:
       "Chips are designed with generous safety margins so that they keep working in the worst case, and those margins cost energy and speed. ACCROSS studies approximate computing across the whole system stack, from applications down to circuits, including reduced design margins and ways to measure the resulting error.",
     descriptionEl:
@@ -156,9 +161,9 @@ export const projects: Project[] = [
     period: "Sep 2021 - Apr 2022",
     periodEl: "Σεπ 2021 - Απρ 2022",
     role: "Principal Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/AxAgingAwareNetlists",
-    image: "/images/projects/agingnetlists/main.jpg",
+    image: "/images/projects/agingnetlists/system.png",
     description:
       "Transistors age, and designers normally cover that with extra timing margin that costs energy from day one. This repository contains approximate circuit netlists evolved with a genetic algorithm to absorb aging while preserving useful circuit behavior.",
     descriptionEl:
@@ -183,9 +188,9 @@ export const projects: Project[] = [
     period: "Dec 2021 - Mar 2022",
     periodEl: "Δεκ 2021 - Μάρ 2022",
     role: "Head Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/PrintedTrees",
-    image: "/images/projects/printedtrees/main.png",
+    image: "/images/projects/printedtrees/system.png",
     description:
       "A decision tree is about the simplest classifier you can build in hardware, a chain of comparisons, but in printed electronics every comparator counts. PrintedTrees uses NSGA-II to tune tree thresholds, reduce comparator count and generate synthesizable Verilog.",
     descriptionEl:
@@ -211,9 +216,9 @@ export const projects: Project[] = [
     period: "Jan 2024 - May 2024",
     periodEl: "Ιαν 2024 - Μάιος 2024",
     role: "Head Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/axcarbon",
-    image: "/images/projects/axcarbon/main.png",
+    image: "/images/projects/axcarbon/system.png",
     description:
       "DNN accelerators have an environmental cost as well as a performance and energy cost. AxCarbon explores approximate arithmetic hardware as a way to reduce accelerator footprint: it evolves pruned multipliers, adders and multiply-accumulate units, then evaluates their effect on hardware cost and model quality. The project connects gate-level approximation with carbon-aware accelerator design.",
     descriptionEl:
@@ -238,9 +243,9 @@ export const projects: Project[] = [
     period: "Sep 2023 - Dec 2023",
     periodEl: "Σεπ 2023 - Δεκ 2023",
     role: "Head Developer",
-    roleEl: "Επικεφαλής ανάπτυξης",
+    roleEl: "Επικεφαλής Προγραμματιστής",
     link: "https://github.com/kompalas/floating-point-MAC",
-    image: "/images/projects/fpmac/main.png",
+    image: "/images/projects/fpmac/system.png",
     description:
       "This project implements a floating-point multiply-accumulate (MAC) unit in Verilog and explores how approximate mantissa multipliers affect the hardware cost of arithmetic-intensive workloads. It includes the synthesizable design and evaluation assets, connecting approximate arithmetic blocks to the energy constraints faced by machine-learning accelerators and federated-learning devices.",
     descriptionEl:
@@ -264,8 +269,8 @@ export const projects: Project[] = [
     kind: "research",
     period: "May 2021 - Dec 2021",
     periodEl: "Μάιος 2021 - Δεκ 2021",
-    role: "Junior Researcher @ Aristotle University of Thessaloniki",
-    roleEl: "Νεότερος ερευνητής @ Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης (ΑΠΘ)",
+    role: "Junior Researcher",
+    roleEl: "Νεότερος Ερευνητής",
     link: "https://smartbeeing.web.auth.gr/",
     image: "/images/projects/smartbeeing/main.png",
     description:
@@ -287,10 +292,10 @@ export const projects: Project[] = [
     kind: "research",
     period: "Feb 2019 - Apr 2021",
     periodEl: "Φεβ 2019 - Απρ 2021",
-    role: "Junior Researcher @ Aristotle University of Thessaloniki",
-    roleEl: "Νεότερος ερευνητής @ Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης (ΑΠΘ)",
+    role: "Junior Researcher",
+    roleEl: "Νεότερος Ερευνητής",
     link: "https://ice.web.auth.gr/",
-    image: "/images/projects/ice/main.png",
+    image: "/images/projects/ice/logo.png",
     description:
       "ICE (Innovative Cultural Experience) brings cultural heritage into interactive, technology-enhanced displays. Its system combines augmented-reality content, immersive 360-degree video and audio with transparent interactive displays; a complementary low-cost IoT platform tracks anonymous visitor flows in museums. I contributed to neural-network applications for the AR experience and to system-specification analysis.",
     descriptionEl:
@@ -310,10 +315,10 @@ export const projects: Project[] = [
     kind: "research",
     period: "Feb 2019 - Apr 2021",
     periodEl: "Φεβ 2019 - Απρ 2021",
-    role: "Junior Researcher @ Aristotle University of Thessaloniki",
-    roleEl: "Νεότερος ερευνητής @ Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης (ΑΠΘ)",
-    link: "https://safeschools.web.auth.gr/",
-    image: "/images/projects/safeschools/main.png",
+    role: "Junior Researcher",
+    roleEl: "Νεότερος Ερευνητής",
+    link: "https://www.safeschools.gr/",
+    image: "/images/projects/safeschools/logo.png",
     description:
       "SafeSchools is an earthquake early-warning system for school buildings. It warns schools shortly before strong shaking arrives and estimates damage risk from building age, structure and site conditions. I developed its DSP-based data collection and preprocessing algorithms.",
     descriptionEl:
@@ -326,6 +331,56 @@ export const projects: Project[] = [
       "The project combines real-time sensor measurements with information about a building's age, structural characteristics and local conditions. Signal-processing pipelines prepare sensor data for rapid assessment and warning, and the system was piloted in three Thessaloniki schools.",
     detailsEl:
       "Το έργο συνδυάζει μετρήσεις αισθητήρων σε πραγματικό χρόνο με πληροφορίες για την ηλικία, τα δομικά χαρακτηριστικά και τις τοπικές συνθήκες ενός κτιρίου. Οι ροές επεξεργασίας σήματος προετοιμάζουν τα δεδομένα για ταχεία αξιολόγηση και προειδοποίηση, ενώ το σύστημα δοκιμάστηκε πιλοτικά σε τρία σχολεία της Θεσσαλονίκης.",
+    detailsContent: {
+      en: [
+        {
+          type: "paragraph",
+          text: "SafeSchools combines real-time measurements from sensors installed in school buildings with information about each building's age, structural characteristics and local conditions.",
+        },
+        {
+          type: "image",
+          src: "/images/projects/safeschools/system.png",
+          alt: "Diagram of the SafeSchools system architecture",
+        },
+        {
+          type: "paragraph",
+          text: "The system processes these signals to assess seismic activity and issue warnings shortly before strong shaking reaches the site.",
+        },
+        {
+          type: "image",
+          src: "/images/projects/safeschools/system_3d.jpg",
+          alt: "Three-dimensional model of the SafeSchools system",
+        },
+        {
+          type: "paragraph",
+          text: "Signal-processing pipelines prepare sensor data for rapid assessment and warning. The system was piloted in three Thessaloniki schools.",
+        },
+      ],
+      el: [
+        {
+          type: "paragraph",
+          text: "Το SafeSchools συνδυάζει μετρήσεις σε πραγματικό χρόνο από αισθητήρες εγκατεστημένους σε σχολικά κτίρια με πληροφορίες για την ηλικία, τα δομικά χαρακτηριστικά και τις τοπικές συνθήκες κάθε κτιρίου.",
+        },
+        {
+          type: "image",
+          src: "/images/projects/safeschools/system.png",
+          alt: "Διάγραμμα της αρχιτεκτονικής του συστήματος SafeSchools",
+        },
+        {
+          type: "paragraph",
+          text: "Το σύστημα επεξεργάζεται αυτά τα σήματα για να αξιολογήσει τη σεισμική δραστηριότητα και να εκδώσει προειδοποιήσεις λίγο πριν φτάσει η ισχυρή δόνηση στο σημείο.",
+        },
+        {
+          type: "image",
+          src: "/images/projects/safeschools/system_3d.jpg",
+          alt: "Τρισδιάστατο μοντέλο του συστήματος SafeSchools",
+        },
+        {
+          type: "paragraph",
+          text: "Οι ροές επεξεργασίας σήματος προετοιμάζουν τα δεδομένα των αισθητήρων για ταχεία αξιολόγηση και προειδοποίηση. Το σύστημα δοκιμάστηκε πιλοτικά σε τρία σχολεία της Θεσσαλονίκης.",
+        },
+      ],
+    },
   },
 ];
 

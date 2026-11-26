@@ -87,6 +87,7 @@ export function ProjectSlideshow({
     ? (project.roleDescriptionEl ?? project.roleDescription)
     : project.roleDescription;
   const details = isGreek ? (project.detailsEl ?? project.details) : project.details;
+  const detailsContent = isGreek ? project.detailsContent?.el : project.detailsContent?.en;
 
   return (
     <Column className={styles.page} maxWidth="l" fillWidth gap="m" paddingY="16">
@@ -195,9 +196,28 @@ export function ProjectSlideshow({
         <Heading as="h2" className={styles.sectionLabel} variant="heading-strong-m">
           {text.details}
         </Heading>
-        <Text className={styles.detailText} variant="body-default-l" onBackground="neutral-weak">
-          {details}
-        </Text>
+        {detailsContent ? (
+          detailsContent.map((block) =>
+            block.type === "paragraph" ? (
+              <Text
+                key={block.text}
+                className={styles.detailText}
+                variant="body-default-l"
+                onBackground="neutral-weak"
+              >
+                {block.text}
+              </Text>
+            ) : (
+              <figure key={block.src} className={styles.detailImage}>
+                <img src={block.src} alt={block.alt} loading="lazy" />
+              </figure>
+            ),
+          )
+        ) : (
+          <Text className={styles.detailText} variant="body-default-l" onBackground="neutral-weak">
+            {details}
+          </Text>
+        )}
         {project.citation && (
           <div className={styles.citation}>
             <Text variant="body-default-s" weight="strong">

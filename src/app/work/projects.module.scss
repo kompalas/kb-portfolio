@@ -33,6 +33,13 @@
   transition: border-color var(--transition-micro-medium), transform var(--transition-micro-medium);
 }
 
+@media (max-width: 959px) {
+  .card {
+    height: 460px;
+    min-height: 460px;
+  }
+}
+
 @media (hover: hover) {
   .card:hover {
     border-color: var(--neutral-on-background-strong);
